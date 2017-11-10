@@ -12,5 +12,5 @@ import android.widget.TextView;
  */
 
 public interface iContentPageChanged {
-  TextView getContentTitleView();
+  TextView getContentTitleView(int position);
 }

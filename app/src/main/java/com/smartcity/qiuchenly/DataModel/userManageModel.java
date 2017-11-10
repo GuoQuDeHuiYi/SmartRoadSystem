@@ -1,5 +1,7 @@
 package com.smartcity.qiuchenly.DataModel;
 
+import java.util.List;
+
 /**
  * Author: qiuchenly
  * Date   : 09/11/2017
@@ -10,6 +12,10 @@ package com.smartcity.qiuchenly.DataModel;
  */
 
 public class userManageModel {
-  public String carID,carMaster;
-  public int totalMoney,carTypePic;
+  public datas[] data=new datas[0];
+
+  public class datas {
+    public String carID, carMaster;
+    public int totalMoney, carTypePic;
+  }
 }

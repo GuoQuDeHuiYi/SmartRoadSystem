@@ -29,7 +29,7 @@ public class mContentView_SwitchView implements ViewPager.OnPageChangeListener {
 
   @Override
   public void onPageSelected(int position) {
-    change.getContentTitleView().setText(chars.get(position));
+    change.getContentTitleView(position).setText(chars.get(position));
   }
 
   @Override

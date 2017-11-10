@@ -3,7 +3,7 @@ package com.smartcity.qiuchenly.VirtualData;
 /**
  * Author: qiuchenly
  * Date  : 09/11/2017
- * Usage :
+ * Usage :虚拟数据层，暂时无后端，用此层数据代替
  * Lasted:2017 11 09
  * ProjectName:SmartRoadSystem
  * Create: 2017 11 09 , on 23:09
@@ -14,7 +14,8 @@ public class userManageDataBase {
 
   }
 
-  public String getUsers(){
+
+  public static String getUsers() {
     return "{\n" +
             "            \"data\": [\n" +
             "                {\n" +

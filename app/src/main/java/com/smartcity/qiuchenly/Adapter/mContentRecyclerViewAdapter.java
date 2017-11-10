@@ -12,6 +12,7 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.smartcity.qiuchenly.Base.SharedContext;
 import com.smartcity.qiuchenly.DataModel.userManageModel;
 import com.smartcity.qiuchenly.R;
 
@@ -30,13 +31,17 @@ import java.util.List;
 public class mContentRecyclerViewAdapter extends
         RecyclerView.Adapter<mContentRecyclerViewAdapter.VH> {
 
-  List<userManageModel> lists;
+  userManageModel lists;
 
   Context con;
 
-  public mContentRecyclerViewAdapter(List<userManageModel> lists, Context context) {
+  public void addListData(userManageModel lists) {
+    this.lists=lists;
+  }
+
+  public mContentRecyclerViewAdapter(userManageModel lists) {
     this.lists = lists;
-    con = context;
+    con = SharedContext.getContext();
   }
 
   @Override
@@ -48,8 +53,8 @@ public class mContentRecyclerViewAdapter extends
 
   @Override
   public void onBindViewHolder(VH h, int p) {
-    userManageModel user = lists.get(p);
-    h.index.setText(p + "");
+    userManageModel.datas user = lists.data[p];
+    h.index.setText(p + 1 + "");//fix INDEX bug
     h.payMent.setText("充值");
     h.carID.setText(user.carID);
     h.carMaster.setText("车主:" + user.carMaster);
@@ -85,7 +90,7 @@ public class mContentRecyclerViewAdapter extends
 
   @Override
   public int getItemCount() {
-    return lists.size();
+    return lists.data.length;
   }
 
   class VH extends RecyclerView.ViewHolder {

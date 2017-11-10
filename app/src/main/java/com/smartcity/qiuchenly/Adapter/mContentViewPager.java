@@ -20,8 +20,10 @@ import java.util.List;
 public class mContentViewPager extends PagerAdapter {
 
   List<View> lists;
+  iContentViewPagerViewEvent event;
 
-  public mContentViewPager(List<View> lists) {
+  public mContentViewPager(List<View> lists, iContentViewPagerViewEvent event) {
+    this.event = event;
     this.lists = lists;
   }
 
@@ -38,17 +40,9 @@ public class mContentViewPager extends PagerAdapter {
   @Override
   public Object instantiateItem(ViewGroup container, int position) {
     View v = lists.get(position);
-    setViewEvent(position, v);
+    event.setViewEvent(position, v);
     container.addView(v);
     return v;
-  }
-
-  //初始化每一个View的事件bind
-  void setViewEvent(int i, View view) {
-    switch (i) {
-      default:
-        break;
-    }
   }
 
   @Override
