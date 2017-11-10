@@ -1,7 +1,10 @@
 #过滤.gradle#
 .gradle/
-.idea/
+.idea/*
 build/
 
 local.properties
 *.iml
+.idea/workspace.xml
+.idea/misc.xml
+.idea/workspace.xml

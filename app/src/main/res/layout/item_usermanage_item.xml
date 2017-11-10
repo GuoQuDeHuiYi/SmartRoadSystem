@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?><!--用户管理item设定-->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="50dp">
+
+    <TextView
+        android:id="@+id/user_manage_items_index"
+        android:layout_width="40dp"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="1"
+        android:textSize="18sp" />
+
+    <ImageView
+        android:id="@+id/user_manage_items_ico"
+        android:layout_width="50dp"
+        android:layout_height="match_parent"
+        android:layout_toRightOf="@id/user_manage_items_index"
+        android:padding="5dp"
+        android:src="@mipmap/ic_launcher" />
+
+    <LinearLayout
+        android:id="@+id/linear1"
+        android:layout_width="100dp"
+        android:layout_height="match_parent"
+        android:layout_toRightOf="@id/user_manage_items_ico"
+        android:orientation="vertical"
+        android:padding="5dp">
+
+
+        <TextView
+            android:id="@+id/user_manage_items_carID"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.5"
+            android:gravity="center"
+            android:text="辽XXXXXXXX"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/user_manage_items_carUser"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="left"
+            android:text="车主：xxx"
+            android:textSize="13sp" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/user_manage_items_total"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_toEndOf="@+id/linear1"
+        android:layout_toLeftOf="@+id/Frame1"
+        android:layout_toRightOf="@+id/linear1"
+        android:layout_toStartOf="@+id/Frame1"
+        android:gravity="center"
+        android:text="余额:5000元" />
+
+    <FrameLayout
+        android:id="@+id/Frame1"
+        android:layout_width="100dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="11dp"
+        android:layout_marginRight="15dp"
+        android:layout_toLeftOf="@+id/user_manage_items_payment"
+        android:layout_toStartOf="@+id/user_manage_items_payment">
+
+        <android.support.v7.widget.AppCompatCheckBox
+            android:id="@+id/user_manage_items_check"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
+    </FrameLayout>
+
+
+    <Button
+        android:id="@+id/user_manage_items_payment"
+        android:layout_width="100dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true" />
+
+</RelativeLayout>

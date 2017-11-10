@@ -7,6 +7,7 @@ import android.widget.TextView;
 import com.smartcity.qiuchenly.Base.ActivitySet;
 import com.smartcity.qiuchenly.Base.BaseActivity;
 import com.smartcity.qiuchenly.Base.ShareUtils;
+import com.smartcity.qiuchenly.Base.Utils;
 
 public class SplashActivity extends BaseActivity {
   Button jmp = null;
@@ -46,13 +47,13 @@ public class SplashActivity extends BaseActivity {
 //    2 TranslateAnimation 平移
 //    3 AlphaAnimation 渐变
 //    4 RotateAnimation 旋转
-
-
-    ShareUtils.getSharePreferences(this);
-    if (ShareUtils.getBoolean("isLogin"))
-      go(SecondActivity.class, 3000, true);
-    else
-      go(MainActivity.class, 3000, true);
+    boolean is = Utils.isTwiceOpen();
+    if (is)
+      if (ShareUtils.getBoolean("isLogin")) {
+        go(SecondActivity.class, 0, true);
+        return;
+      }
+    go(MainActivity.class, 3000, true);
   }
 
   /**
