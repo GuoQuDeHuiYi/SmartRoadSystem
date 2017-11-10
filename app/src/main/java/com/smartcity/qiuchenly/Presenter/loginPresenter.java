@@ -1,11 +1,12 @@
 package com.smartcity.qiuchenly.Presenter;
 
+import android.os.Handler;
+import android.os.Looper;
+
 import com.smartcity.qiuchenly.DataModel.userManageModel;
 import com.smartcity.qiuchenly.Net.Callback;
 import com.smartcity.qiuchenly.Net.ILoginAPI;
 import com.smartcity.qiuchenly.Net.LoginAPI;
-
-import java.util.List;
 
 /**
  * Author: qiuchenly
@@ -19,8 +20,10 @@ import java.util.List;
 public class loginPresenter implements ILoginAPI {
 
   LoginAPI Login;
+  Handler handler;
 
   public loginPresenter() {
+    handler = new Handler(Looper.getMainLooper());
     Login = new LoginAPI();
   }
 
@@ -36,13 +39,24 @@ public class loginPresenter implements ILoginAPI {
       public void run() {
         Login.getManageUser(new Callback.getUserManageData() {
           @Override
-          public void getDataSuccess(userManageModel data) {
-            getUserManageData.getDataSuccess(data);
+          public void getDataSuccess(final userManageModel data) {
+            handler.post(new Runnable() {
+              @Override
+              public void run() {
+                getUserManageData.getDataSuccess(data);
+              }
+            });
+
           }
 
           @Override
-          public void getDataFailed(String errReason) {
-            getUserManageData.getDataFailed(errReason);
+          public void getDataFailed(final String errReason) {
+            handler.post(new Runnable() {
+              @Override
+              public void run() {
+                getUserManageData.getDataFailed(errReason);
+              }
+            });
           }
         });
       }

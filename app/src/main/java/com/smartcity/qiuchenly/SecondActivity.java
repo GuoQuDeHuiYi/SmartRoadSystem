@@ -5,6 +5,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -29,6 +31,7 @@ import com.smartcity.qiuchenly.Adapter.mContentViewPager;
 import com.smartcity.qiuchenly.Adapter.mContentView_SwitchView;
 import com.smartcity.qiuchenly.Base.ActivitySet;
 import com.smartcity.qiuchenly.Base.BaseActivity;
+import com.smartcity.qiuchenly.Base.SharedContext;
 import com.smartcity.qiuchenly.Base.Utils;
 import com.smartcity.qiuchenly.DataModel.userManageModel;
 import com.smartcity.qiuchenly.Net.Callback;
@@ -207,6 +210,22 @@ public class SecondActivity extends BaseActivity implements iContentPageChanged,
         mAdapter = new mContentRecyclerViewAdapter(new userManageModel());
         user_manage_items_recyclerView.setAdapter(mAdapter);
         presenter.getManageUser(this);
+        //运行闪退分析
+        //1.发现在旋转屏幕后会随机闪退。
+        //2.运行一段时间后旋转屏幕随机闪退。
+        //分析：检查Logcat信息，发现闪退原因是：在子线程中更新了主线程控件UI
+        //产生跨进程操作导致OOM
+
+        //出错状态还原：
+        //APP打开后，手机默认是竖屏，此时用户选择旋转屏幕切换视图。
+        //视图切换后，UI需要更新自动适配APP。
+        //UI更新将重新调用getMainUser()方法，填充数据
+        //此时将回调getDataSuccess()或getDataFailed()方法。
+        //调用getMainUser()方法时，new Thread()开始异步请求。
+        //问题就出在这：当异步请求结束后，运行在Thread里面的代码开始通知RecyclerView进行数据更新
+        //当执行notifyDataSetChanged()方法时，异步请求中Thread代码跨线程操作UI线程中的控件，此时系统捕捉到错误信息。
+        //
+        //解决方法：使用主线程更新控件信息。
         break;
       default:
         break;
@@ -214,7 +233,7 @@ public class SecondActivity extends BaseActivity implements iContentPageChanged,
   }
 
   @Override
-  public void getDataSuccess(userManageModel data) {
+  public void getDataSuccess(final userManageModel data) {
     mAdapter.addListData(data);
     mAdapter.notifyDataSetChanged();
   }
