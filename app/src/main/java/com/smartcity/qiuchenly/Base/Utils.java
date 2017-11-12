@@ -322,4 +322,8 @@ public class Utils {
     Gson a = new Gson();
     return a.fromJson(str, cx);
   }
+
+  public static int getMoneyLimitValue(){
+    return 10;
+  }
 }

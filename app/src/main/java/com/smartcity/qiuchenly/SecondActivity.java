@@ -5,13 +5,12 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
-import android.os.Handler;
-import android.os.Looper;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -23,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.smartcity.qiuchenly.Adapter.iContentPageChanged;
 import com.smartcity.qiuchenly.Adapter.iContentViewPagerViewEvent;
@@ -31,17 +31,20 @@ import com.smartcity.qiuchenly.Adapter.mContentViewPager;
 import com.smartcity.qiuchenly.Adapter.mContentView_SwitchView;
 import com.smartcity.qiuchenly.Base.ActivitySet;
 import com.smartcity.qiuchenly.Base.BaseActivity;
-import com.smartcity.qiuchenly.Base.SharedContext;
 import com.smartcity.qiuchenly.Base.Utils;
 import com.smartcity.qiuchenly.DataModel.userManageModel;
 import com.smartcity.qiuchenly.Net.Callback;
 import com.smartcity.qiuchenly.Presenter.loginPresenter;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 public class SecondActivity extends BaseActivity implements iContentPageChanged,
         iContentViewPagerViewEvent, Callback.getUserManageData {
+
+  String TAG = "QiuChenDebug";
 
   FrameLayout menu;
   DrawerLayout draw;
@@ -144,6 +147,7 @@ public class SecondActivity extends BaseActivity implements iContentPageChanged,
         isOpen = true;
         break;
       case R.id.user_manage_tools_allPay:
+        批量支付();
         Msg("支付？不存在的");
         break;
       case R.id.user_manage_tools_PayHistory:
@@ -153,6 +157,23 @@ public class SecondActivity extends BaseActivity implements iContentPageChanged,
 
         break;
     }
+  }
+
+  void 批量支付() {
+    Map<Integer, Boolean> list = mAdapter.getCheckedItems();
+    userManageModel user = mAdapter.getItems();
+    Iterator<Map.Entry<Integer, Boolean>> s = list.entrySet().iterator();
+    List<userManageModel.datas> result = new ArrayList<>();
+    StringBuilder res = new StringBuilder();
+    while (s.hasNext()) {
+      Map.Entry<Integer, Boolean> a = s.next();
+      if (a.getValue()) {
+        result.add(user.data[a.getKey()]);
+        res.append(user.data[a.getKey()].carID + ",");
+        Log.d(TAG, "批量支付: " + user.data[a.getKey()].carID);
+      }
+    }
+    Toast.makeText(this, "批量支付的车牌号对象:" + res, Toast.LENGTH_SHORT).show();
   }
 
   @Override
@@ -208,6 +229,18 @@ public class SecondActivity extends BaseActivity implements iContentPageChanged,
           }
         });
         mAdapter = new mContentRecyclerViewAdapter(new userManageModel());
+        mAdapter.setOnItemClickListener(new mContentRecyclerViewAdapter.onItemClickListener() {
+          @Override
+          public void setOnClickListener(View v, int position) {
+            mAdapter.setItemChecked(position);
+          }
+
+          @Override
+          public void setOnLongClickListener(View v, int position) {
+            mAdapter.setItemChecked(position);
+            mAdapter.notifyDataSetChanged();
+          }
+        });
         user_manage_items_recyclerView.setAdapter(mAdapter);
         presenter.getManageUser(this);
         //运行闪退分析
