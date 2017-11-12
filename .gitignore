@@ -1,6 +1,6 @@
 #过滤.gradle#
 .gradle/
-.idea/*
+.idea/
 build/
 
 local.properties
@@ -9,3 +9,5 @@ local.properties
 .idea/misc.xml
 .idea/workspace.xml
 .idea/workspace.xml
+.idea/workspace.xml
+app/src/main/java/com/smartcity/.DS_Store
