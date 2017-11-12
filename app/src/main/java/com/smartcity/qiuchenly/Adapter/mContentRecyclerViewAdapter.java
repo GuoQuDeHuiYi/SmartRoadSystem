@@ -129,6 +129,10 @@ public class mContentRecyclerViewAdapter extends
     return lists.data.length;
   }
 
+  public userManageModel getItems(){
+    return lists;
+  }
+
   @Override
   public void onClick(View v) {
     onItemClickListener.setOnClickListener(v, (Integer) v.getTag());
@@ -141,6 +145,10 @@ public class mContentRecyclerViewAdapter extends
       checkBoxItems.put(position, true);
     }
     notifyItemChanged(position);
+  }
+
+  public Map<Integer,Boolean> getCheckedItems(){
+    return checkBoxItems;
   }
 
   @Override
