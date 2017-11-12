@@ -23,7 +23,7 @@ public class LoginAPI implements ILoginAPI {
   public void getManageUser(Callback.getUserManageData getUserManageData) {
     String str = userManageDataBase.getUsers();
     userManageModel list= Utils.jsonToListA(str, userManageModel.class);
-    if (System.currentTimeMillis() % 2 == 0) {
+    if (System.currentTimeMillis() % 2 == 0 || true) {
       getUserManageData.getDataSuccess(list);
     } else {
       getUserManageData.getDataFailed("数据获取失败！当然是原谅它！");

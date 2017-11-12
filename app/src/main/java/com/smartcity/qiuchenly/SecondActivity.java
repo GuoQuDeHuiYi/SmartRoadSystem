@@ -208,6 +208,18 @@ public class SecondActivity extends BaseActivity implements iContentPageChanged,
           }
         });
         mAdapter = new mContentRecyclerViewAdapter(new userManageModel());
+        mAdapter.setOnItemClickListener(new mContentRecyclerViewAdapter.onItemClickListener() {
+          @Override
+          public void setOnClickListener(View v, int position) {
+            mAdapter.setItemChecked(position);
+          }
+
+          @Override
+          public void setOnLongClickListener(View v, int position) {
+            mAdapter.setItemChecked(position);
+            mAdapter.notifyDataSetChanged();
+          }
+        });
         user_manage_items_recyclerView.setAdapter(mAdapter);
         presenter.getManageUser(this);
         //运行闪退分析

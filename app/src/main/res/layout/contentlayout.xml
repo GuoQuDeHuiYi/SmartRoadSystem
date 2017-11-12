@@ -75,11 +75,11 @@
                 </LinearLayout>
             </FrameLayout>
     </android.support.v7.widget.Toolbar>
-
+    <!--偏移5dp实现items上下左右对称-->
     <android.support.v4.view.ViewPager
+        android:layout_marginTop="5dp"
         android:layout_below="@id/mMainToolBar"
         android:id="@+id/mMainContentView"
-        android:background="#4b000000"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
