@@ -11,3 +11,4 @@ local.properties
 .idea/workspace.xml
 .idea/workspace.xml
 app/src/main/java/com/smartcity/.DS_Store
+*.iml
