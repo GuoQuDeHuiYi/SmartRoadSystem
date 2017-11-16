@@ -11,10 +11,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
+            android:name=".View_LoginPage"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".SplashActivity"
+            android:name=".View_Splash"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,7 +23,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".SecondActivity"
+            android:name=".View_mainPage"
             android:theme="@style/AppTheme.NoActionBar" />
     </application>
 </manifest>

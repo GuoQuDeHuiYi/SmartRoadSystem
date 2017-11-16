@@ -2,14 +2,13 @@ package com.smartcity.qiuchenly;
 
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 
 import com.smartcity.qiuchenly.Base.ActivitySet;
 import com.smartcity.qiuchenly.Base.BaseActivity;
 import com.smartcity.qiuchenly.Base.ShareUtils;
 import com.smartcity.qiuchenly.Base.Utils;
 
-public class SplashActivity extends BaseActivity {
+public class View_Splash extends BaseActivity {
   Button jmp = null;
 
   /**
@@ -50,10 +49,10 @@ public class SplashActivity extends BaseActivity {
     boolean is = Utils.isTwiceOpen();
     if (is)
       if (ShareUtils.getBoolean("isLogin")) {
-        go(SecondActivity.class, 0, true);
+        go(View_mainPage.class, 0, true);
         return;
       }
-    go(MainActivity.class, 3000, true);
+    go(View_LoginPage.class, 3000, true);
   }
 
   /**
@@ -65,7 +64,7 @@ public class SplashActivity extends BaseActivity {
   public void click(View v) {
     switch (v.getId()) {
       case R.id.jmp:
-        go(MainActivity.class, true);
+        go(View_LoginPage.class, true);
         break;
       default:
         break;

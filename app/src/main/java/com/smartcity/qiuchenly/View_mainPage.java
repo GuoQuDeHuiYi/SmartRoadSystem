@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -41,7 +42,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-public class SecondActivity extends BaseActivity implements iContentPageChanged,
+public class View_mainPage extends BaseActivity implements iContentPageChanged,
         iContentViewPagerViewEvent, Callback.getUserManageData {
 
     String TAG = "QiuChenDebug";
@@ -58,7 +59,7 @@ public class SecondActivity extends BaseActivity implements iContentPageChanged,
     Button mUser_manage_tools_allPay, mUser_manage_tools_PayHistory;
 
     //下方ViewPager
-    ViewPager mMainContentView,Personal_ViewPager;
+    ViewPager mMainContentView, Personal_ViewPager;
 
     RelativeLayout mContentRl;
 
@@ -67,6 +68,7 @@ public class SecondActivity extends BaseActivity implements iContentPageChanged,
     Toolbar mMainToolBar;
 
     loginPresenter presenter;
+
 
 
 
@@ -96,7 +98,7 @@ public class SecondActivity extends BaseActivity implements iContentPageChanged,
 
         String[] viewTitle = new String[]{
                 "用户管理", "公交查询",
-                "红绿灯管理", "违章查询","个人中心"
+                "红绿灯管理", "违章查询", "个人中心"
         };
 
         List<String> viewsTitles = new ArrayList<>();
@@ -273,7 +275,7 @@ public class SecondActivity extends BaseActivity implements iContentPageChanged,
         }
     }
 
-    void InitPersonal(View view){
+    void InitPersonal(View view) {
         Personal_ViewPager = find(R.id.Personal_viewpager);
 //        int[] Personal_
         List<View> list = new ArrayList<>();

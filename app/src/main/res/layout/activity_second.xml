@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#333444"
-    tools:context="com.smartcity.qiuchenly.SecondActivity">
+    tools:context="com.smartcity.qiuchenly.View_mainPage">
 
     <include layout="@layout/contentlayout" />
 
