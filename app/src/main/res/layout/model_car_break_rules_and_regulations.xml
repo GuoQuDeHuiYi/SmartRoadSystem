@@ -1,7 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--车辆违章查询-->
-<android.support.constraint.ConstraintLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-</android.support.constraint.ConstraintLayout>
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <LinearLayout
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="车辆违章查询"
+            android:textColor="#000"
+            android:textSize="25sp"
+            android:layout_marginTop="-120dp"
+            android:gravity="center"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="车牌号：鲁"
+                android:textColor="#000"
+                android:textSize="22sp"/>
+            <EditText
+                android:layout_width="200dp"
+                android:layout_height="30dp"
+                android:background="@drawable/edittextview"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:background="@drawable/button"
+                android:text="查询"
+                android:textColor="#000"/>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

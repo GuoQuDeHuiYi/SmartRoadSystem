@@ -1,12 +1,15 @@
 package com.smartcity.qiuchenly;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -42,7 +45,7 @@ import java.util.List;
 import java.util.Map;
 
 public class SecondActivity extends BaseActivity implements iContentPageChanged,
-        iContentViewPagerViewEvent, Callback.getUserManageData {
+        iContentViewPagerViewEvent, Callback.getUserManageData{
 
   String TAG = "QiuChenDebug";
 
@@ -55,7 +58,7 @@ public class SecondActivity extends BaseActivity implements iContentPageChanged,
   //首页上方工具栏
   LinearLayout mUser_Manage_items_tools;
   //工具栏2个按钮
-  Button mUser_manage_tools_allPay, mUser_manage_tools_PayHistory;
+  Button mUser_manage_tools_allPay, mUser_manage_tools_PayHistory,infoBtn;
 
   //下方ViewPager
   ViewPager mMainContentView;
@@ -67,6 +70,10 @@ public class SecondActivity extends BaseActivity implements iContentPageChanged,
   Toolbar mMainToolBar;
 
   loginPresenter presenter;
+
+  LinearLayout hospital,hospitalInfo,lenovo,lenovoInfo,user,bus,light,lllegal;
+
+  ImageView hospitalImg,lenovoImg;
 
 
   @Override
@@ -153,6 +160,9 @@ public class SecondActivity extends BaseActivity implements iContentPageChanged,
       case R.id.user_manage_tools_PayHistory:
         Msg("穷鬼！心悦3有了吗？没有还敢谈充钱两个字？？");
         break;
+      case R.id.nav_bus:
+
+        break;
       default:
 
         break;
@@ -188,6 +198,12 @@ public class SecondActivity extends BaseActivity implements iContentPageChanged,
     mContentRl = find(R.id.mContentRl);
     mMainToolBar = find(R.id.mMainToolBar);
     contentBitmap = find(R.id.contentBitmap);
+    bus = find(R.id.nav_bus,true);
+    user= find(R.id.nav_user,true);
+    light = find(R.id.nav_light,true);
+    lllegal = find(R.id.nav_llegal,true);
+
+
   }
 
   @Override
@@ -211,6 +227,8 @@ public class SecondActivity extends BaseActivity implements iContentPageChanged,
   }
 
   RecyclerView user_manage_items_recyclerView;
+
+
 
   mContentRecyclerViewAdapter mAdapter;
 
@@ -260,9 +278,65 @@ public class SecondActivity extends BaseActivity implements iContentPageChanged,
         //
         //解决方法：使用主线程更新控件信息。
         break;
+        case 1:
+          lenovo = view.findViewById(R.id.lenovoStation);
+          hospital = view.findViewById(R.id.hospitalStation);
+          lenovoInfo = view.findViewById(R.id.lenovoStationInfo);
+          hospitalInfo = view.findViewById(R.id.hospitalStationInfo);
+          lenovoImg = view.findViewById(R.id.lenovoStationImg);
+          hospitalImg= view.findViewById(R.id.hospitalStationImg);
+          infoBtn = view.findViewById(R.id.infoBtn);
+
+          hospital.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+              if(hospitalInfo.getVisibility()==View.VISIBLE){
+                hospitalInfo.setVisibility(View.GONE);
+                hospitalImg.setImageResource(R.drawable.arrow_left);
+              }
+              else {
+                hospitalInfo.setVisibility(View.VISIBLE);
+                hospitalImg.setImageResource(R.drawable.arrow_bottom);
+              }
+            }
+          });
+          lenovo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+              if (lenovoInfo.getVisibility()==View.VISIBLE){
+                lenovoInfo.setVisibility(View.GONE);
+                lenovoImg.setImageResource(R.drawable.arrow_left);
+              }else{
+                lenovoInfo.setVisibility(View.VISIBLE);
+                lenovoImg.setImageResource(R.drawable.arrow_bottom);
+              }
+            }
+          });
+          infoBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+              showDialog();
+            }
+          });
+            break;
       default:
         break;
     }
+
+
+  }
+
+  public void showDialog() {
+    AlertDialog.Builder dialog = new AlertDialog.Builder(SecondActivity.this);
+    final View dialogView = LayoutInflater.from(SecondActivity.this).inflate(R.layout.dialog_businfo, null);
+    dialog.setPositiveButton("返回", new DialogInterface.OnClickListener() {
+      @Override
+      public void onClick(DialogInterface dialogInterface, int i) {
+
+      }
+    });
+    dialog.setView(dialogView);
+    dialog.show();
   }
 
   @Override
