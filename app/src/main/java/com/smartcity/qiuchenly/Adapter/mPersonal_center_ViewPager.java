@@ -16,7 +16,7 @@ public class mPersonal_center_ViewPager extends PagerAdapter {
     iPersonalEvent event;
 
 
-    public mPersonal_center_ViewPager(List<View> list,iPersonalEvent event) {
+    public mPersonal_center_ViewPager(List<View> list, iPersonalEvent event) {
         this.list = list;
         this.event = event;
     }
@@ -27,7 +27,6 @@ public class mPersonal_center_ViewPager extends PagerAdapter {
     }
 
 
-
     @Override
     public int getCount() {
         return list.size();
@@ -36,7 +35,7 @@ public class mPersonal_center_ViewPager extends PagerAdapter {
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
         View v = list.get(position);
-        event.PersonsetViewEvent(v,position);
+        event.PersonsetViewEvent(v, position);
         container.addView(v);
         return v;
     }
