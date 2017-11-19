@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -27,11 +28,14 @@ import android.widget.Toast;
 
 import com.smartcity.qiuchenly.Adapter.iContentPageChanged;
 import com.smartcity.qiuchenly.Adapter.iContentViewPagerViewEvent;
+import com.smartcity.qiuchenly.Adapter.iPersonalEvent;
 import com.smartcity.qiuchenly.Adapter.mContentRecyclerViewAdapter;
 import com.smartcity.qiuchenly.Adapter.mContentViewPager;
 import com.smartcity.qiuchenly.Adapter.mContentView_SwitchView;
+import com.smartcity.qiuchenly.Adapter.mPersonal_center_ViewPager;
 import com.smartcity.qiuchenly.Base.ActivitySet;
 import com.smartcity.qiuchenly.Base.BaseActivity;
+import com.smartcity.qiuchenly.Base.ShareUtils;
 import com.smartcity.qiuchenly.Base.Utils;
 import com.smartcity.qiuchenly.DataModel.userManageModel;
 import com.smartcity.qiuchenly.Net.Callback;
@@ -43,7 +47,7 @@ import java.util.List;
 import java.util.Map;
 
 public class View_mainPage extends BaseActivity implements iContentPageChanged,
-        iContentViewPagerViewEvent, Callback.getUserManageData {
+        iContentViewPagerViewEvent, Callback.getUserManageData,iPersonalEvent {
 
     String TAG = "QiuChenDebug";
 
@@ -69,8 +73,11 @@ public class View_mainPage extends BaseActivity implements iContentPageChanged,
 
     loginPresenter presenter;
 
+    EditText AmountValue;
 
+    Button SetAmount;
 
+    TextView Amount, Personal_TextView, Prepaid_TextView, Threshold_TextView;
 
     @Override
     public int getLayout() {
@@ -160,6 +167,7 @@ public class View_mainPage extends BaseActivity implements iContentPageChanged,
             case R.id.user_manage_tools_PayHistory:
                 Msg("穷鬼！心悦3有了吗？没有还敢谈充钱两个字？？");
                 break;
+
             default:
 
                 break;
@@ -269,6 +277,38 @@ public class View_mainPage extends BaseActivity implements iContentPageChanged,
                 break;
             case 4:
                 InitPersonal(view);
+                Personal_TextView = view.findViewById(R.id.Personal_TextView);
+                Prepaid_TextView = view.findViewById(R.id.Prepaid_TextView);
+                Threshold_TextView = view.findViewById(R.id.Threshold_TextView);
+
+                Personal_TextView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Personal_ViewPager.setCurrentItem(0);
+                        Personal_TextView.setTextSize(1, 20);
+                        Prepaid_TextView.setTextSize(1, 15);
+                        Threshold_TextView.setTextSize(1, 15);
+                    }
+                });
+                Prepaid_TextView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Personal_ViewPager.setCurrentItem(1);
+                        Prepaid_TextView.setTextSize(1, 20);
+                        Personal_TextView.setTextSize(1, 15);
+                        Threshold_TextView.setTextSize(1, 15);
+                    }
+                });
+                Threshold_TextView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Personal_ViewPager.setCurrentItem(2);
+                        Threshold_TextView.setTextSize(1, 20);
+                        Personal_TextView.setTextSize(1, 15);
+                        Prepaid_TextView.setTextSize(1, 15);
+                    }
+                });
+
                 break;
             default:
                 break;
@@ -276,12 +316,17 @@ public class View_mainPage extends BaseActivity implements iContentPageChanged,
     }
 
     void InitPersonal(View view) {
-        Personal_ViewPager = find(R.id.Personal_viewpager);
-//        int[] Personal_
+        Personal_ViewPager = view.findViewById(R.id.Personal_viewpager);
         List<View> list = new ArrayList<>();
-
-
+        for (int a = 0; a < 3; a++) {
+            View v = LayoutInflater.from(this).inflate(a == 1 ? R.layout.prepaid : a == 2 ?
+                    R.layout.threshold : R.layout.personal, null);
+            list.add(v);
+        }
+        Personal_ViewPager.setOffscreenPageLimit(3);
+        Personal_ViewPager.setAdapter(new mPersonal_center_ViewPager(list, this));
     }
+
 
     @Override
     public void getDataSuccess(final userManageModel data) {
@@ -292,5 +337,30 @@ public class View_mainPage extends BaseActivity implements iContentPageChanged,
     @Override
     public void getDataFailed(String errReason) {
         Msg(errReason);
+    }
+
+    @Override
+    public void PersonsetViewEvent(View v, int p) {
+        switch (p) {
+            case 0:
+
+                break;
+            case 1:
+                break;
+            case 2:
+                SetAmount = v.findViewById(R.id.SetAmount);
+                Amount = v.findViewById(R.id.Amount);
+                AmountValue = v.findViewById(R.id.AmountValue);
+                String a = ShareUtils.get("Amount");
+                Amount.setText(a);
+                SetAmount.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Amount.setText(AmountValue.getText().toString());
+                        ShareUtils.put("Amount", Amount.getText().toString());
+                    }
+                });
+                break;
+        }
     }
 }

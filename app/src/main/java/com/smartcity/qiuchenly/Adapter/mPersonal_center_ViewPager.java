@@ -14,9 +14,7 @@ public class mPersonal_center_ViewPager extends PagerAdapter {
 
     List<View> list;
     iPersonalEvent event;
-
-
-    public mPersonal_center_ViewPager(List<View> list,iPersonalEvent event) {
+    public mPersonal_center_ViewPager(List<View> list, iPersonalEvent event) {
         this.list = list;
         this.event = event;
     }
@@ -25,9 +23,6 @@ public class mPersonal_center_ViewPager extends PagerAdapter {
     public void destroyItem(ViewGroup container, int position, Object object) {
         super.destroyItem(container, position, object);
     }
-
-
-
     @Override
     public int getCount() {
         return list.size();
