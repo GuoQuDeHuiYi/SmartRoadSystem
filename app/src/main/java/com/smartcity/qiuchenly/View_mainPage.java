@@ -1,12 +1,14 @@
 package com.smartcity.qiuchenly;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -60,7 +62,7 @@ public class View_mainPage extends BaseActivity implements iContentPageChanged,
     //首页上方工具栏
     LinearLayout mUser_Manage_items_tools;
     //工具栏2个按钮
-    Button mUser_manage_tools_allPay, mUser_manage_tools_PayHistory;
+    Button mUser_manage_tools_allPay, mUser_manage_tools_PayHistory,infoBtn;
 
     //下方ViewPager
     ViewPager mMainContentView, Personal_ViewPager;
@@ -229,6 +231,10 @@ public class View_mainPage extends BaseActivity implements iContentPageChanged,
 
     mContentRecyclerViewAdapter mAdapter;
 
+    LinearLayout hospital,hospitalInfo,lenovo,lenovoInfo,user,bus,light,lllegal;
+
+    ImageView hospitalImg,lenovoImg;
+
     @Override
     public void setViewEvent(int i, View view) {
         switch (i) {
@@ -274,6 +280,47 @@ public class View_mainPage extends BaseActivity implements iContentPageChanged,
                 //当执行notifyDataSetChanged()方法时，异步请求中Thread代码跨线程操作UI线程中的控件，此时系统捕捉到错误信息。
                 //
                 //解决方法：使用主线程更新控件信息。
+                break;
+            case 1:
+                lenovo = view.findViewById(R.id.lenovoStation);
+                hospital = view.findViewById(R.id.hospitalStation);
+                lenovoInfo = view.findViewById(R.id.lenovoStationInfo);
+                hospitalInfo = view.findViewById(R.id.hospitalStationInfo);
+                lenovoImg = view.findViewById(R.id.lenovoStationImg);
+                hospitalImg= view.findViewById(R.id.hospitalStationImg);
+                infoBtn = view.findViewById(R.id.infoBtn);
+
+                hospital.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if(hospitalInfo.getVisibility()==View.VISIBLE){
+                            hospitalInfo.setVisibility(View.GONE);
+                            hospitalImg.setImageResource(R.drawable.arrow_left);
+                        }
+                        else {
+                            hospitalInfo.setVisibility(View.VISIBLE);
+                            hospitalImg.setImageResource(R.drawable.arrow_bottom);
+                        }
+                    }
+                });
+                lenovo.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (lenovoInfo.getVisibility()==View.VISIBLE){
+                            lenovoInfo.setVisibility(View.GONE);
+                            lenovoImg.setImageResource(R.drawable.arrow_left);
+                        }else{
+                            lenovoInfo.setVisibility(View.VISIBLE);
+                            lenovoImg.setImageResource(R.drawable.arrow_bottom);
+                        }
+                    }
+                });
+                infoBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        showDialog();
+                    }
+                });
                 break;
             case 4:
                 InitPersonal(view);
@@ -327,6 +374,19 @@ public class View_mainPage extends BaseActivity implements iContentPageChanged,
         Personal_ViewPager.setAdapter(new mPersonal_center_ViewPager(list, this));
     }
 
+    public void showDialog() {
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+        final View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_businfo, null);
+        dialog.setPositiveButton("返回", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+        dialog.setView(dialogView);
+        dialog.show();
+    }
+
 
     @Override
     public void getDataSuccess(final userManageModel data) {
@@ -340,7 +400,7 @@ public class View_mainPage extends BaseActivity implements iContentPageChanged,
     }
 
     @Override
-    public void PersonsetViewEvent(View v, int p) {
+    public void PersonSetViewEvent(View v, int p) {
         switch (p) {
             case 0:
 

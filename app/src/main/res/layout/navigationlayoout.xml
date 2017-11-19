@@ -42,6 +42,67 @@
         </LinearLayout>
 
     </FrameLayout>
+    <ScrollView
+        android:scrollbars="vertical"
+        android:fadingEdge="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+    <LinearLayout
+        android:id="@+id/nav_user"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="?attr/selectableItemBackground">
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:gravity="left|center"
+            android:text="账户管理" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/nav_bus"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="?attr/selectableItemBackground">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:gravity="left|center"
+            android:text="公交查询" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/nav_light"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="?attr/selectableItemBackground">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:gravity="left|center"
+            android:text="红绿灯管理（需要管理员权限）" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="?attr/selectableItemBackground">
+
+        <TextView
+            android:id="@+id/nav_llegal"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:gravity="left|center"
+            android:text="车辆违章" />
+    </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>
