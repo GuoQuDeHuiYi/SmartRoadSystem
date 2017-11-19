@@ -11,7 +11,7 @@ import android.widget.TextView;
  * Create: 2017 11 10 , on 11:31
  */
 
-public interface iContentPageChanged {
-  TextView getContentTitleView(int position);
+public interface iPersonPageChanged {
+  void PersonPageChangedEvent(int p);
 }
 

@@ -10,7 +10,7 @@ import com.smartcity.qiuchenly.Adapter.iPersonalEvent;
 
 public class mPersonal_center_Event implements iPersonalEvent {
     @Override
-    public void PersonsetViewEvent(View v, int p) {
+    public void PersonSetViewEvent(View v, int p) {
 
     }
 }

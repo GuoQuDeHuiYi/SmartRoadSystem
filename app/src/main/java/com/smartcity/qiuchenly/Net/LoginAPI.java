@@ -4,8 +4,6 @@ import com.smartcity.qiuchenly.Base.Utils;
 import com.smartcity.qiuchenly.DataModel.userManageModel;
 import com.smartcity.qiuchenly.VirtualData.userManageDataBase;
 
-import java.util.List;
-
 /**
  * Author: qiuchenly
  * Date   : 10/11/2017
@@ -15,12 +13,12 @@ import java.util.List;
  * Create: 2017 11 10 , on 20:32
  */
 
-public class LoginAPI implements ILoginAPI {
-  public void login(String user, String pass, Callback.loginCallBack callBack) {
+public class LoginAPI implements iLoginAPI {
+  public void login(String user, String pass, iCallback.loginCallBack callBack) {
 
   }
 
-  public void getManageUser(Callback.getUserManageData getUserManageData) {
+  public void getManageUser(iCallback.getUserManageData getUserManageData) {
     String str = userManageDataBase.getUsers();
     userManageModel list= Utils.jsonToListA(str, userManageModel.class);
     if (System.currentTimeMillis() % 2 == 0 || true) {

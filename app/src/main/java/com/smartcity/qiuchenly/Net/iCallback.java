@@ -13,7 +13,7 @@ import java.util.List;
  * Create: 2017 11 10 , on 20:33
  */
 
-public interface Callback {
+public interface iCallback {
   interface loginCallBack {
     void loginSuccess();
 

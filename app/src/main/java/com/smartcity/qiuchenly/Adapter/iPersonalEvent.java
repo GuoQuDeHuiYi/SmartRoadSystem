@@ -7,5 +7,5 @@ import android.view.View;
  */
 
 public interface iPersonalEvent {
-    void PersonsetViewEvent(View v,int p);
+    void PersonSetViewEvent(View v,int p);
 }
