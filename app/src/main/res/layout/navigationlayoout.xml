@@ -1,108 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <FrameLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <ImageView
+        <FrameLayout
+
+            android:id="@+id/nil_navigation_header"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:background="#000000"
-            android:scaleType="centerCrop"
-            app:srcCompat="@mipmap/maincontent" />
+            android:layout_height="wrap_content">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:layout_marginBottom="20dp"
-            android:layout_marginLeft="20dp">
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:background="#000000"
+                android:scaleType="centerCrop"
+                app:srcCompat="@mipmap/maincontent" />
 
-            <TextView
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="testText"
-                android:textColor="#ffffff"
-                android:textSize="21sp" />
-            <TextView
-                android:layout_width="50dp"
-                android:layout_height="20dp"
-                android:layout_marginLeft="10dp"
-                android:gravity="center"
-                android:text="LV4"
-                android:background="@drawable/levelup"
-                android:textColor="#2e2e2e"
-                android:textSize="15sp" />
-        </LinearLayout>
+                android:layout_gravity="bottom"
+                android:layout_marginBottom="20dp"
+                android:layout_marginLeft="20dp">
 
-    </FrameLayout>
-    <ScrollView
-        android:scrollbars="vertical"
-        android:fadingEdge="vertical"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
-        <LinearLayout
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="隔壁老王，你好。"
+                    android:textColor="#ffffff"
+                    android:textSize="21sp" />
+
+                <TextView
+                    android:layout_width="50dp"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/levelup"
+                    android:gravity="center"
+                    android:text="LV4"
+                    android:textColor="#2e2e2e"
+                    android:textSize="15sp" />
+            </LinearLayout>
+        </FrameLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/navigation_body_selectItems"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
-    <LinearLayout
-        android:id="@+id/nav_user"
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:background="?attr/selectableItemBackground">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:gravity="left|center"
-            android:text="账户管理" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/nav_bus"
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:background="?attr/selectableItemBackground">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:gravity="left|center"
-            android:text="公交查询" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/nav_light"
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:background="?attr/selectableItemBackground">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:gravity="left|center"
-            android:text="红绿灯管理（需要管理员权限）" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:background="?attr/selectableItemBackground">
-
-        <TextView
-            android:id="@+id/nav_llegal"
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:gravity="left|center"
-            android:text="车辆违章" />
-    </LinearLayout>
-        </LinearLayout>
-    </ScrollView>
-
-</LinearLayout>
+            android:layout_below="@+id/nil_navigation_header" />
+            
+    </RelativeLayout>
+</FrameLayout>

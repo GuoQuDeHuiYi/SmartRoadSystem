@@ -31,7 +31,7 @@ public class mPersonal_center_ViewPager extends PagerAdapter {
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
         View v = list.get(position);
-        event.PersonsetViewEvent(v,position);
+        event.PersonSetViewEvent(v,position);
         container.addView(v);
         return v;
     }

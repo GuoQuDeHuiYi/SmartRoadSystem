@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">智慧城市测试项目</string>
-    <string name="title_activity_main">MainActivity</string>
     <string-array name="sortSpinner">
         <item>路口升序</item>
         <item>路口降序</item>
