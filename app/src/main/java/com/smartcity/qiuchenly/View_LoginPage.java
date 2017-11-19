@@ -11,8 +11,10 @@ import android.widget.RelativeLayout;
 import com.smartcity.qiuchenly.Base.ActivitySet;
 import com.smartcity.qiuchenly.Base.BaseActivity;
 import com.smartcity.qiuchenly.Base.ShareUtils;
+import com.smartcity.qiuchenly.Net.iCallback;
+import com.smartcity.qiuchenly.Presenter.loginPresenter;
 
-public class View_LoginPage extends BaseActivity {
+public class View_LoginPage extends BaseActivity implements iCallback.loginCallBack{
 
     Toolbar toolbar = null;
     EditText user, pass;
@@ -22,6 +24,8 @@ public class View_LoginPage extends BaseActivity {
 
     //记住密码，自动登录
     CheckBox m_LoginView_rememberPass, m_LoginView_autoLogin;
+
+    loginPresenter presenter;
 
 
     @Override
@@ -40,7 +44,8 @@ public class View_LoginPage extends BaseActivity {
 
     @Override
     public void ready() {
-
+        presenter=new loginPresenter();
+        //presenter.login("", "",this);
         //go(View_mainPage.class,3000,true);
     }
 
@@ -50,7 +55,7 @@ public class View_LoginPage extends BaseActivity {
             case R.id.m_LoginView_mLogin:
                 //需要验证用户名和密码的 此处跳过
                 ShareUtils.put("isLogin", true);
-                go(View_mainPage.class, 2000, true);
+                go(View_mainPage.class, true);
                 break;
             case R.id.m_LoginView_mRegister:
                 Msg("想注册？你怕是石乐志。");
@@ -68,5 +73,15 @@ public class View_LoginPage extends BaseActivity {
         m_LoginView_NetSetting = find(R.id.m_LoginView_NetSetting);
         m_LoginView_rememberPass = find(R.id.m_LoginView_rememberPass);
         m_LoginView_autoLogin = find(R.id.m_LoginView_autoLogin);
+    }
+
+    @Override
+    public void loginSuccess() {
+
+    }
+
+    @Override
+    public void loginFailed(String errReason) {
+
     }
 }

@@ -5,54 +5,58 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <RelativeLayout
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
-        <FrameLayout
-
-            android:id="@+id/nil_navigation_header"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
-            <ImageView
+            <FrameLayout
+                android:id="@+id/nil_navigation_header"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:background="#000000"
-                android:scaleType="centerCrop"
-                app:srcCompat="@mipmap/maincontent" />
+                android:layout_height="wrap_content">
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:layout_marginBottom="20dp"
-                android:layout_marginLeft="20dp">
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:background="#000000"
+                    android:scaleType="centerCrop"
+                    app:srcCompat="@mipmap/maincontent" />
 
-                <TextView
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="隔壁老王，你好。"
-                    android:textColor="#ffffff"
-                    android:textSize="21sp" />
+                    android:layout_gravity="bottom"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginLeft="20dp">
 
-                <TextView
-                    android:layout_width="50dp"
-                    android:layout_height="20dp"
-                    android:layout_marginLeft="10dp"
-                    android:background="@drawable/levelup"
-                    android:gravity="center"
-                    android:text="LV4"
-                    android:textColor="#2e2e2e"
-                    android:textSize="15sp" />
-            </LinearLayout>
-        </FrameLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="隔壁老王，你好。"
+                        android:textColor="#ffffff"
+                        android:textSize="21sp" />
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/navigation_body_selectItems"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/nil_navigation_header" />
-            
-    </RelativeLayout>
+                    <TextView
+                        android:layout_width="50dp"
+                        android:layout_height="20dp"
+                        android:layout_marginLeft="10dp"
+                        android:background="@drawable/levelup"
+                        android:gravity="center"
+                        android:text="LV4"
+                        android:textColor="#2e2e2e"
+                        android:textSize="15sp" />
+                </LinearLayout>
+            </FrameLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/navigation_body_selectItems"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/nil_navigation_header" />
+        </RelativeLayout>
+    </ScrollView>
 </FrameLayout>

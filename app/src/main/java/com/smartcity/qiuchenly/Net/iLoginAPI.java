@@ -9,8 +9,8 @@ package com.smartcity.qiuchenly.Net;
  * Create: 2017 11 10 , on 20:37
  */
 
-public interface ILoginAPI {
-  void login(String user,String pass,Callback.loginCallBack callBack);
+public interface iLoginAPI {
+  void login(String user,String pass,iCallback.loginCallBack callBack);
 
-  void getManageUser(Callback.getUserManageData getUserManageData);
+  void getManageUser(iCallback.getUserManageData getUserManageData);
 }

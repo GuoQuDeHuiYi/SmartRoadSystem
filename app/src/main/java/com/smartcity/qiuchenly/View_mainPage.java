@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.support.v4.view.ViewPager;
@@ -19,29 +20,33 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.smartcity.qiuchenly.Adapter.iContentPageChanged;
 import com.smartcity.qiuchenly.Adapter.iContentViewPagerViewEvent;
+import com.smartcity.qiuchenly.Adapter.iPersonPageChanged;
 import com.smartcity.qiuchenly.Adapter.iPersonalEvent;
 import com.smartcity.qiuchenly.Adapter.mContentRecyclerViewAdapter;
 import com.smartcity.qiuchenly.Adapter.mContentViewPager;
 import com.smartcity.qiuchenly.Adapter.mContentView_SwitchView;
+import com.smartcity.qiuchenly.Adapter.mPersonView_SwitchView;
 import com.smartcity.qiuchenly.Adapter.mPersonal_center_ViewPager;
 import com.smartcity.qiuchenly.Base.ActivitySet;
 import com.smartcity.qiuchenly.Base.BaseActivity;
 import com.smartcity.qiuchenly.Base.ShareUtils;
 import com.smartcity.qiuchenly.Base.Utils;
 import com.smartcity.qiuchenly.DataModel.userManageModel;
-import com.smartcity.qiuchenly.Net.Callback;
+import com.smartcity.qiuchenly.Net.iCallback;
 import com.smartcity.qiuchenly.Presenter.loginPresenter;
+import com.smartcity.qiuchenly.function.fun_navigation_itemsSelect;
+import com.smartcity.qiuchenly.function.iNavigation_items_Click;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -49,7 +54,9 @@ import java.util.List;
 import java.util.Map;
 
 public class View_mainPage extends BaseActivity implements iContentPageChanged,
-        iContentViewPagerViewEvent, Callback.getUserManageData,iPersonalEvent {
+        iContentViewPagerViewEvent, iCallback.getUserManageData,
+        iPersonalEvent, iNavigation_items_Click,
+        iPersonPageChanged {
 
     String TAG = "QiuChenDebug";
 
@@ -62,7 +69,7 @@ public class View_mainPage extends BaseActivity implements iContentPageChanged,
     //首页上方工具栏
     LinearLayout mUser_Manage_items_tools;
     //工具栏2个按钮
-    Button mUser_manage_tools_allPay, mUser_manage_tools_PayHistory,infoBtn;
+    Button mUser_manage_tools_allPay, mUser_manage_tools_PayHistory, infoBtn;
 
     //下方ViewPager
     ViewPager mMainContentView, Personal_ViewPager;
@@ -113,7 +120,6 @@ public class View_mainPage extends BaseActivity implements iContentPageChanged,
         List<String> viewsTitles = new ArrayList<>();
         List<View> listView = new ArrayList<>();
         for (int i = 0; i < viewsCollection.length; i++) {
-            //通过
             View v = LayoutInflater.from(this).inflate(viewsCollection[i], null);
             //添加布局
             listView.add(v);
@@ -149,10 +155,12 @@ public class View_mainPage extends BaseActivity implements iContentPageChanged,
                 mContentRl.getViewTreeObserver().removeOnGlobalLayoutListener(this);
             }
         });
-
         presenter = new loginPresenter();
-
+        fun_navigation_itemsSelect = new fun_navigation_itemsSelect
+                (viewsTitles, this, this);
     }
+
+    fun_navigation_itemsSelect fun_navigation_itemsSelect;
 
 
     @Override
@@ -169,7 +177,15 @@ public class View_mainPage extends BaseActivity implements iContentPageChanged,
             case R.id.user_manage_tools_PayHistory:
                 Msg("穷鬼！心悦3有了吗？没有还敢谈充钱两个字？？");
                 break;
-
+            case R.id.Personal_TextView:
+                Personal_ViewPager.setCurrentItem(0);
+                break;
+            case R.id.Prepaid_TextView:
+                Personal_ViewPager.setCurrentItem(1);
+                break;
+            case R.id.Threshold_TextView:
+                Personal_ViewPager.setCurrentItem(2);
+                break;
             default:
 
                 break;
@@ -231,9 +247,9 @@ public class View_mainPage extends BaseActivity implements iContentPageChanged,
 
     mContentRecyclerViewAdapter mAdapter;
 
-    LinearLayout hospital,hospitalInfo,lenovo,lenovoInfo,user,bus,light,lllegal;
+    LinearLayout hospital, hospitalInfo, lenovo, lenovoInfo, user, bus, light, lllegal;
 
-    ImageView hospitalImg,lenovoImg;
+    ImageView hospitalImg, lenovoImg;
 
     @Override
     public void setViewEvent(int i, View view) {
@@ -287,17 +303,16 @@ public class View_mainPage extends BaseActivity implements iContentPageChanged,
                 lenovoInfo = view.findViewById(R.id.lenovoStationInfo);
                 hospitalInfo = view.findViewById(R.id.hospitalStationInfo);
                 lenovoImg = view.findViewById(R.id.lenovoStationImg);
-                hospitalImg= view.findViewById(R.id.hospitalStationImg);
+                hospitalImg = view.findViewById(R.id.hospitalStationImg);
                 infoBtn = view.findViewById(R.id.infoBtn);
 
                 hospital.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if(hospitalInfo.getVisibility()==View.VISIBLE){
+                        if (hospitalInfo.getVisibility() == View.VISIBLE) {
                             hospitalInfo.setVisibility(View.GONE);
                             hospitalImg.setImageResource(R.drawable.arrow_left);
-                        }
-                        else {
+                        } else {
                             hospitalInfo.setVisibility(View.VISIBLE);
                             hospitalImg.setImageResource(R.drawable.arrow_bottom);
                         }
@@ -306,10 +321,10 @@ public class View_mainPage extends BaseActivity implements iContentPageChanged,
                 lenovo.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if (lenovoInfo.getVisibility()==View.VISIBLE){
+                        if (lenovoInfo.getVisibility() == View.VISIBLE) {
                             lenovoInfo.setVisibility(View.GONE);
                             lenovoImg.setImageResource(R.drawable.arrow_left);
-                        }else{
+                        } else {
                             lenovoInfo.setVisibility(View.VISIBLE);
                             lenovoImg.setImageResource(R.drawable.arrow_bottom);
                         }
@@ -324,38 +339,6 @@ public class View_mainPage extends BaseActivity implements iContentPageChanged,
                 break;
             case 4:
                 InitPersonal(view);
-                Personal_TextView = view.findViewById(R.id.Personal_TextView);
-                Prepaid_TextView = view.findViewById(R.id.Prepaid_TextView);
-                Threshold_TextView = view.findViewById(R.id.Threshold_TextView);
-
-                Personal_TextView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Personal_ViewPager.setCurrentItem(0);
-                        Personal_TextView.setTextSize(1, 20);
-                        Prepaid_TextView.setTextSize(1, 15);
-                        Threshold_TextView.setTextSize(1, 15);
-                    }
-                });
-                Prepaid_TextView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Personal_ViewPager.setCurrentItem(1);
-                        Prepaid_TextView.setTextSize(1, 20);
-                        Personal_TextView.setTextSize(1, 15);
-                        Threshold_TextView.setTextSize(1, 15);
-                    }
-                });
-                Threshold_TextView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Personal_ViewPager.setCurrentItem(2);
-                        Threshold_TextView.setTextSize(1, 20);
-                        Personal_TextView.setTextSize(1, 15);
-                        Prepaid_TextView.setTextSize(1, 15);
-                    }
-                });
-
                 break;
             default:
                 break;
@@ -372,17 +355,25 @@ public class View_mainPage extends BaseActivity implements iContentPageChanged,
         }
         Personal_ViewPager.setOffscreenPageLimit(3);
         Personal_ViewPager.setAdapter(new mPersonal_center_ViewPager(list, this));
+        Personal_ViewPager.addOnPageChangeListener(new mPersonView_SwitchView(this));
+
+        Personal_TextView = view.findViewById(R.id.Personal_TextView);
+        Prepaid_TextView = view.findViewById(R.id.Prepaid_TextView);
+        Threshold_TextView = view.findViewById(R.id.Threshold_TextView);
+        Personal_TextView.setOnClickListener(this);
+        Prepaid_TextView.setOnClickListener(this);
+        Threshold_TextView.setOnClickListener(this);
+
+        personPageChangeTitle=new ArrayList<>();
+        personPageChangeTitle.add(Personal_TextView);
+        personPageChangeTitle.add(Prepaid_TextView);
+        personPageChangeTitle.add(Threshold_TextView);
+
     }
 
     public void showDialog() {
         AlertDialog.Builder dialog = new AlertDialog.Builder(this);
         final View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_businfo, null);
-        dialog.setPositiveButton("返回", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-
-            }
-        });
         dialog.setView(dialogView);
         dialog.show();
     }
@@ -422,5 +413,21 @@ public class View_mainPage extends BaseActivity implements iContentPageChanged,
                 });
                 break;
         }
+    }
+
+    @Override
+    public void navigation_itemsClickPosition(int position) {
+        mMainContentView.setCurrentItem(position);
+        draw.closeDrawer(Gravity.START);
+    }
+
+    List<TextView> personPageChangeTitle;
+
+    @Override
+    public void PersonPageChangedEvent(int p) {
+        for (int a = 0; a < personPageChangeTitle.size(); a++) {
+                personPageChangeTitle.get(a).setTextColor(Color.WHITE);
+        }
+        personPageChangeTitle.get(p).setTextColor(Color.RED);
     }
 }
