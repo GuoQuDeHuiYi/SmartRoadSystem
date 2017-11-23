@@ -3,6 +3,7 @@ package com.smartcity.qiuchenly.Base;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -154,6 +155,16 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
         }
       }
     }, delayMillis);
+  }
+
+  @Override
+  protected void onResume() {
+    super.onResume();
+
+    //方便调试,设置为横屏显示
+    if(getRequestedOrientation()!=ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE){
+      setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+    }
   }
 
   void goAnimation() {

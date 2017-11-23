@@ -76,7 +76,7 @@ public class View_LoginPage extends BaseActivity implements iCallback.loginCallB
     }
 
     @Override
-    public void loginSuccess() {
+    public void loginSuccess(String result) {
 
     }
 

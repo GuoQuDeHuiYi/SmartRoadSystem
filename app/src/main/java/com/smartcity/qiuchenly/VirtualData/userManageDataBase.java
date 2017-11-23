@@ -14,8 +14,6 @@ public class userManageDataBase {
 
     }
 
-
-<<<<<<< HEAD
     public static String getUsers() {
         return "{\n" +
                 "            \"data\": [\n" +

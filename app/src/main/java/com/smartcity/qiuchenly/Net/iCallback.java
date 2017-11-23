@@ -15,9 +15,9 @@ import java.util.List;
 
 public interface iCallback {
   interface loginCallBack {
-    void loginSuccess();
+    void loginSuccess(final String result);
 
-    void loginFailed(String errReason);
+    void loginFailed(final String errReason);
   }
 
   interface getUserManageData {

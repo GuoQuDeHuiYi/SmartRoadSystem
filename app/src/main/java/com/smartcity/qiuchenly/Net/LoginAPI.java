@@ -14,13 +14,24 @@ import com.smartcity.qiuchenly.VirtualData.userManageDataBase;
  */
 
 public class LoginAPI implements iLoginAPI {
-  public void login(String user, String pass, iCallback.loginCallBack callBack) {
-
+  public void login(final String user, final String pass, final iCallback.loginCallBack callBack) {
+    //2017 11.23日增加登录逻辑
+    new Thread(){
+      @Override
+      public void run() {
+        String result = userManageDataBase.VirtualWebSiteLogin(user, pass);
+        if(result!=null){
+          callBack.loginSuccess(result);
+        }else{
+          callBack.loginFailed("数据获取失败!");
+        }
+      }
+    }.start();
   }
 
   public void getManageUser(iCallback.getUserManageData getUserManageData) {
     String str = userManageDataBase.getUsers();
-    userManageModel list= Utils.jsonToListA(str, userManageModel.class);
+    userManageModel list = Utils.jsonToListA(str, userManageModel.class);
     if (System.currentTimeMillis() % 2 == 0 || true) {
       getUserManageData.getDataSuccess(list);
     } else {
