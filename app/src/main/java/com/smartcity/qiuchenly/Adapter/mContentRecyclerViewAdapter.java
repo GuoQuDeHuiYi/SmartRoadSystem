@@ -33,8 +33,8 @@ import java.util.Map;
  */
 
 public class mContentRecyclerViewAdapter extends
-        RecyclerView.Adapter<mContentRecyclerViewAdapter.VH> implements View.OnClickListener, View
-        .OnLongClickListener {
+        RecyclerView.Adapter<mContentRecyclerViewAdapter.VH>
+        implements View.OnClickListener, View.OnLongClickListener {
 
   userManageModel lists;
 
@@ -47,7 +47,7 @@ public class mContentRecyclerViewAdapter extends
   private onItemClickListener onItemClickListener;
 
   public void addListData(userManageModel lists) {
-    this.lists=lists;
+    this.lists = lists;
   }
 
   public mContentRecyclerViewAdapter(userManageModel lists) {
@@ -80,10 +80,10 @@ public class mContentRecyclerViewAdapter extends
     h.payMent.setText("充值");
     h.carID.setText(user.carID);
     h.carMaster.setText("车主:" + user.carMaster);
-    h.total.setText("余额:" + user.totalMoney + "元"+(user.totalMoney < Utils.getMoneyLimitValue()
-            ?"\n[余额不足]":""));
+    h.total.setText("余额:" + user.totalMoney + "元" + (user.totalMoney < Utils.getMoneyLimitValue()
+            ? "\n[余额不足]" : ""));
     h.total.setTextColor(Color.parseColor((user.totalMoney >= Utils.getMoneyLimitValue()
-            ?"#FFFFFF":"#FFCC00")));
+            ? "#FFFFFF" : "#FFCC00")));
     h.user_manage_index_image.setImageBitmap(getCarImg(user.carTypePic));
     h.selectPayAll.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
       @Override
@@ -129,14 +129,11 @@ public class mContentRecyclerViewAdapter extends
     return lists.data.length;
   }
 
-  public userManageModel getItems(){
+  public userManageModel getItems() {
     return lists;
   }
 
-  @Override
-  public void onClick(View v) {
-    onItemClickListener.setOnClickListener(v, (Integer) v.getTag());
-  }
+
 
   public void setItemChecked(int position) {
     if (checkBoxItems.get(position)) {
@@ -147,7 +144,7 @@ public class mContentRecyclerViewAdapter extends
     notifyItemChanged(position);
   }
 
-  public Map<Integer,Boolean> getCheckedItems(){
+  public Map<Integer, Boolean> getCheckedItems() {
     return checkBoxItems;
   }
 
@@ -157,6 +154,11 @@ public class mContentRecyclerViewAdapter extends
     onItemClickListener.setOnLongClickListener(v, (Integer) v.getTag());
     this.notifyDataSetChanged();
     return true;
+  }
+
+  @Override
+  public void onClick(View v) {
+    onItemClickListener.setOnClickListener(v, (Integer) v.getTag());
   }
 
   class VH extends RecyclerView.ViewHolder {

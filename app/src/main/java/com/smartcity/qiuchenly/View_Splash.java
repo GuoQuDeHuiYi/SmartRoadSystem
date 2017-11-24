@@ -63,7 +63,6 @@ public class View_Splash extends BaseActivity implements Handler.Callback {
 //    3 AlphaAnimation 渐变
 //    4 RotateAnimation 旋转
 
-
     boolean is = Utils.isTwiceOpen();//是否二次打开
 
     times = new ThreadTimer(handler, 1000, 3000, false, true) {

@@ -52,6 +52,24 @@ public class ShareUtils {
     edit.commit();
   }
 
+  public static void put(String key, float value) {
+    SharedPreferences.Editor edit = share.edit();
+    edit.putFloat(key, value);
+    edit.apply();
+    edit.commit();
+  }
+
+
+  /**
+   * 读取保存的Float数据,成功返回非-1,失败返回-1
+   * @param key 字符串key
+   * @return
+   */
+  public static float getF(String key) {
+    return share.getFloat(key, -1);
+  }
+
+
   public static int getInt(String key) {
     return share.getInt(key, -1);//成功返回数据,失败返回-1
   }

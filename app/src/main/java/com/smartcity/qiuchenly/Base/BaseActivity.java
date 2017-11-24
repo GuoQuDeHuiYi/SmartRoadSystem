@@ -133,12 +133,10 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
       finish();
     }
     goAnimation();
-
   }
 
   public <T> void go(Class<T> activity, long delayMillis, final boolean allowFinish) {
     final Intent mIntent = new Intent(this, activity);
-
 
 //    handler.post(new Runnable() {
 //      @Override
