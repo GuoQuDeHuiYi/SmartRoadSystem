@@ -129,10 +129,11 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
 
   public <T> void go(Class<T> activity, final boolean allowFinish) {
     startActivity(new Intent(this, activity));
-    goAnimation();
     if (allowFinish) {
       finish();
     }
+    goAnimation();
+
   }
 
   public <T> void go(Class<T> activity, long delayMillis, final boolean allowFinish) {
@@ -160,11 +161,6 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
   @Override
   protected void onResume() {
     super.onResume();
-
-    //方便调试,设置为横屏显示
-    if(getRequestedOrientation()!=ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE){
-      setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-    }
   }
 
   void goAnimation() {

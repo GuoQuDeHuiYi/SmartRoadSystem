@@ -12,9 +12,11 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".View_LoginPage"
+            android:screenOrientation="landscape"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".View_Splash"
+            android:screenOrientation="landscape"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,6 +25,7 @@
         </activity>
         <activity
             android:name=".View_mainPage"
+            android:screenOrientation="landscape"
             android:theme="@style/AppTheme.NoActionBar" />
     </application>
 </manifest>

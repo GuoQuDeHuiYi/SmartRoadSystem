@@ -3,6 +3,8 @@ package com.smartcity.qiuchenly.Presenter;
 import android.os.Handler;
 import android.os.Looper;
 
+import com.google.gson.Gson;
+import com.smartcity.qiuchenly.DataModel.userLoginCallBackModel;
 import com.smartcity.qiuchenly.DataModel.userManageModel;
 import com.smartcity.qiuchenly.Net.iCallback;
 import com.smartcity.qiuchenly.Net.iLoginAPI;
@@ -17,6 +19,12 @@ import com.smartcity.qiuchenly.Net.LoginAPI;
  * Create: 2017 11 10 , on 20:31
  */
 
+/**
+ * 11.24 日 修改内容
+ * 1.完善了登录权限管理
+ * 2.增加部分虚拟后端判断
+ */
+
 public class loginPresenter implements iLoginAPI {
 
   LoginAPI Login;
@@ -28,8 +36,39 @@ public class loginPresenter implements iLoginAPI {
   }
 
   @Override
-  public void login(String user, String pass, iCallback.loginCallBack callBack) {
+  public void login(final String user, String pass, final iCallback.loginCallBack callBack) {
+    Login.login(user, pass, new iCallback.loginCallBack() {
+      @Override
+      public void loginSuccess(final String result) {
+        handler.post(new Runnable() {
+          @Override
+          public void run() {
+            Gson g = new Gson();
+            userLoginCallBackModel user = g.fromJson(result, userLoginCallBackModel.class);
+            if (user != null && user.errNo.equals("200")) {
+              callBack.loginSuccess(user);
+            } else {
+              callBack.loginFailed("错误代码:" + user.errNo + "|" + user.errReason);
+            }
+          }
+        });
+      }
 
+      @Override
+      public void loginSuccess(userLoginCallBackModel userInfo) {
+        //无需实现此接口
+      }
+
+      @Override
+      public void loginFailed(final String errReason) {
+        handler.post(new Runnable() {
+          @Override
+          public void run() {
+            callBack.loginFailed("数据获取失败!");
+          }
+        });
+      }
+    });
   }
 
   @Override

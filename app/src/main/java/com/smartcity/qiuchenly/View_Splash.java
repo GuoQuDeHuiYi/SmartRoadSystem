@@ -1,15 +1,30 @@
 package com.smartcity.qiuchenly;
 
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
 import com.smartcity.qiuchenly.Base.ActivitySet;
 import com.smartcity.qiuchenly.Base.BaseActivity;
 import com.smartcity.qiuchenly.Base.ShareUtils;
+import com.smartcity.qiuchenly.Base.SharedContext;
+import com.smartcity.qiuchenly.Base.ThreadTimer;
 import com.smartcity.qiuchenly.Base.Utils;
 
-public class View_Splash extends BaseActivity {
+/**
+ * 代码重构,使用强制横屏方法
+ * 重写欢迎页逻辑
+ * 2017.11.24日
+ */
+
+public class View_Splash extends BaseActivity implements Handler.Callback {
   Button jmp = null;
+
+  private static final String TAG = "QiuChen";
+
+  Handler handler;
 
   /**
    * 基本Activity布局设置
@@ -41,29 +56,47 @@ public class View_Splash extends BaseActivity {
    */
   @Override
   public void ready() {
-
+    ShareUtils.getSharePreferences(SharedContext.getContext());
+    handler = new Handler(this.getMainLooper(), this);
 //    1 ScaleAnimation 缩放
 //    2 TranslateAnimation 平移
 //    3 AlphaAnimation 渐变
 //    4 RotateAnimation 旋转
-    boolean is = Utils.isTwiceOpen();
-    if (is)
-      if (ShareUtils.getBoolean("isLogin")) {
-        go(View_mainPage.class, 0, true);
-        return;
+
+
+    boolean is = Utils.isTwiceOpen();//是否二次打开
+
+    times = new ThreadTimer(handler, 1000, 3000, false, true) {
+      @Override
+      public void TimeCallBack(long totalTime) {
+        jmp.setText("跳过 (" + totalTime / 1000 + "s)");
+        if (totalTime == 0) {
+          click(jmp);
+        }
       }
-    go(View_LoginPage.class, 3000, true);
+    };
+
+    if (is) {
+      go(View_LoginPage.class, true);
+    } else {
+      times.Start();
+    }
+
   }
+
+  ThreadTimer times;
 
   /**
    * 当findID结束后,被点击的控件响应事件统一管理子程序
    *
-   * @param v 被传过来的点击的View
+   * @param v 被传过来的点击
+   *          的View
    */
   @Override
   public void click(View v) {
     switch (v.getId()) {
       case R.id.jmp:
+        times.Stop();
         go(View_LoginPage.class, true);
         break;
       default:
@@ -77,5 +110,14 @@ public class View_Splash extends BaseActivity {
   @Override
   public void findID() {
     jmp = find(R.id.jmp, true);
+  }
+
+  @Override
+  public boolean handleMessage(Message message) {
+
+    switch (message.what) {
+
+    }
+    return true;
   }
 }

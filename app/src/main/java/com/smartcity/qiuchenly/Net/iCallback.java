@@ -1,5 +1,6 @@
 package com.smartcity.qiuchenly.Net;
 
+import com.smartcity.qiuchenly.DataModel.userLoginCallBackModel;
 import com.smartcity.qiuchenly.DataModel.userManageModel;
 
 import java.util.List;
@@ -16,6 +17,8 @@ import java.util.List;
 public interface iCallback {
   interface loginCallBack {
     void loginSuccess(final String result);
+
+    void loginSuccess(final userLoginCallBackModel userInfo);
 
     void loginFailed(final String errReason);
   }

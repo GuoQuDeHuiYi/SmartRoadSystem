@@ -28,7 +28,6 @@ import java.util.List;
 
 public class Utils {
   public static boolean isTwiceOpen() {
-    ShareUtils.getSharePreferences(SharedContext.getContext());
     boolean is = ShareUtils.getBoolean("twiceOpen");
     if (!is) ShareUtils.put("twiceOpen", true);
     return is;
