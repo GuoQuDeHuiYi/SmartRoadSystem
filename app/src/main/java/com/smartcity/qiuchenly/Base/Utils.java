@@ -322,7 +322,12 @@ public class Utils {
     return a.fromJson(str, cx);
   }
 
-  public static int getMoneyLimitValue(){
-    return 10;
+  public static int getMoneyLimitValue() {
+    int v = ShareUtils.getInt("getMoneyLimitValue");
+    if (v < 0) {
+      return 50;
+    } else {
+      return v;
+    }
   }
 }

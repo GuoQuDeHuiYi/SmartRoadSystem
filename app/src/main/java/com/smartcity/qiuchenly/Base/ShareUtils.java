@@ -31,7 +31,7 @@ public class ShareUtils {
     return share;
   }
 
-  public static  <T> void put(String key, T data) {
+  public static <T> void put(String key, T data) {
     SharedPreferences.Editor edit = share.edit();
     edit.putString(key, data.toString());
     edit.apply();
@@ -45,11 +45,22 @@ public class ShareUtils {
     edit.commit();
   }
 
+  public static void put(String key, int value) {
+    SharedPreferences.Editor edit = share.edit();
+    edit.putInt(key, value);
+    edit.apply();
+    edit.commit();
+  }
+
+  public static int getInt(String key) {
+    return share.getInt(key, -1);//成功返回数据,失败返回-1
+  }
+
   public static String get(String key) {
-    return share.getString(key,"");
+    return share.getString(key, "");
   }
 
   public static boolean getBoolean(String key) {
-    return share.getBoolean(key,false);
+    return share.getBoolean(key, false);
   }
 }
