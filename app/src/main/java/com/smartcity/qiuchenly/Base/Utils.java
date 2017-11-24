@@ -12,6 +12,8 @@ import android.renderscript.ScriptIntrinsicBlur;
 import android.view.View;
 
 import com.google.gson.Gson;
+import com.smartcity.qiuchenly.DataModel.userLoginCallBackModel;
+import com.smartcity.qiuchenly.VirtualData.userManageDataBase;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -330,4 +332,6 @@ public class Utils {
       return v;
     }
   }
+
+  public static userLoginCallBackModel userInfo;
 }

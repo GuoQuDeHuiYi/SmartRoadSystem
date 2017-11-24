@@ -53,6 +53,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import static com.smartcity.qiuchenly.Base.Utils.userInfo;
+
 public class View_mainPage extends BaseActivity implements iContentPageChanged,
         iContentViewPagerViewEvent, iCallback.getUserManageData,
         iPersonalEvent, iNavigation_items_Click,
@@ -86,7 +88,9 @@ public class View_mainPage extends BaseActivity implements iContentPageChanged,
 
   Button SetAmount;
 
-  TextView Amount, Personal_TextView, Prepaid_TextView, Threshold_TextView;
+  TextView Amount, Personal_TextView, Prepaid_TextView, Threshold_TextView,Personal_user,
+            Personal_sex,Personal_cardID,Personal_phoneNum,Personal_time;
+
 
   @Override
   public int getLayout() {
@@ -368,7 +372,6 @@ public class View_mainPage extends BaseActivity implements iContentPageChanged,
     personPageChangeTitle.add(Personal_TextView);
     personPageChangeTitle.add(Prepaid_TextView);
     personPageChangeTitle.add(Threshold_TextView);
-
   }
 
   public void showDialog() {
@@ -394,6 +397,17 @@ public class View_mainPage extends BaseActivity implements iContentPageChanged,
   public void PersonSetViewEvent(View v, int p) {
     switch (p) {
       case 0:
+      Personal_user = v.findViewById(R.id.tv_personal_user);
+      Personal_cardID = v.findViewById(R.id.tv_personal_cardID);
+      Personal_phoneNum = v.findViewById(R.id.tv_personal_phoneNum);
+      Personal_sex = v.findViewById(R.id.tv_personal_sex);
+      Personal_time = v.findViewById(R.id.tv_personal_time);
+
+      Personal_user.setText(userInfo.userName.toString());
+      Personal_cardID.setText(userInfo.cardID.toString());
+      Personal_phoneNum.setText(userInfo.phoneNum.toString());
+      Personal_sex.setText(userInfo.sex.toString());
+      Personal_time.setText(userInfo.regTime.toString());
 
         break;
       case 1:
@@ -412,8 +426,10 @@ public class View_mainPage extends BaseActivity implements iContentPageChanged,
             ShareUtils.put("getMoneyLimitValue",
                     (int) Integer.valueOf(Amount.getText().toString()));
             mAdapter.notifyDataSetChanged();
+            AmountValue.setText("");
           }
         });
+
         break;
     }
   }
