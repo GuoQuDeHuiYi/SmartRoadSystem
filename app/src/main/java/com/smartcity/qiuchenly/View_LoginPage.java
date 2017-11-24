@@ -12,6 +12,7 @@ import android.widget.RelativeLayout;
 import com.smartcity.qiuchenly.Base.ActivitySet;
 import com.smartcity.qiuchenly.Base.BaseActivity;
 import com.smartcity.qiuchenly.Base.ShareUtils;
+import com.smartcity.qiuchenly.Base.Utils;
 import com.smartcity.qiuchenly.DataModel.userLoginCallBackModel;
 import com.smartcity.qiuchenly.Net.iCallback;
 import com.smartcity.qiuchenly.Presenter.loginPresenter;
@@ -103,6 +104,7 @@ public class View_LoginPage extends BaseActivity implements iCallback.loginCallB
     if (m_LoginView_autoLogin.isChecked()) {
       ShareUtils.put("autoLogin", true);
     }
+    Utils.userInfo = userInfo;
     go(View_mainPage.class, true);
   }
 

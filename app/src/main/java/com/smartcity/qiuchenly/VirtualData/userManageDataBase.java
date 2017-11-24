@@ -76,10 +76,10 @@ public class userManageDataBase {
       VIPLevel = true;
     }
     //sex 1 = 男 2 = 女
-    return "{\"loginState\":\"0\",\"cardID\":\"3209241999999999\",\"sex\":\"1\"," +
-            "\"errNo\":\"200\"," + "\"userName\":\"" + users[count - 1] + "\"," +
-            "\"errReason\":\"\"," + "\"phoneNum\":\"18999999999\"," +
-            "\"regTime\":\"2017.5.1\"," +
+    return "{\"loginState\":\"0\",\"cardID\":\"身份证号：3209241999999999\",\"sex\":\"性别：1\"," +
+            "\"errNo\":\"200\"," + "\"userName\":\"姓名:" + users[count - 1] + "\"," +
+            "\"errReason\":\"\"," + "\"phoneNum\":\"电话号码：18999999999\"," +
+            "\"regTime\":\"注册日期2017.5.1\"," +
             "\"isVIP\":\"" + (VIPLevel ? "1" : "0") + "\"}";
   }
 }
