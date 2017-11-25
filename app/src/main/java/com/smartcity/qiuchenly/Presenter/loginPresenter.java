@@ -27,7 +27,7 @@ import com.smartcity.qiuchenly.Net.LoginAPI;
 
 public class loginPresenter implements iLoginAPI {
 
-  LoginAPI Login;
+  iLoginAPI Login;
   Handler handler;
 
   public loginPresenter() {
@@ -85,7 +85,6 @@ public class loginPresenter implements iLoginAPI {
                 getUserManageData.getDataSuccess(data);
               }
             });
-
           }
 
           @Override

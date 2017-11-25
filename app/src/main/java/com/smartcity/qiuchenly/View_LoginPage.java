@@ -104,7 +104,7 @@ public class View_LoginPage extends BaseActivity implements iCallback.loginCallB
     if (m_LoginView_autoLogin.isChecked()) {
       ShareUtils.put("autoLogin", true);
     }
-    Utils.userInfo = userInfo;
+    Utils.userInfo = userInfo;//数据保存
     go(View_mainPage.class, true);
   }
 

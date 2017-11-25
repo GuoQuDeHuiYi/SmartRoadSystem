@@ -1,7 +1,6 @@
 package com.smartcity.qiuchenly;
 
 import android.annotation.SuppressLint;
-import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -46,8 +45,6 @@ import com.smartcity.qiuchenly.Presenter.loginPresenter;
 import com.smartcity.qiuchenly.function.fun_navigation_itemsSelect;
 import com.smartcity.qiuchenly.function.iNavigation_items_Click;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -60,7 +57,7 @@ public class View_mainPage extends BaseActivity implements iContentPageChanged,
         iPersonalEvent, iNavigation_items_Click,
         iPersonPageChanged {
 
-  String TAG = "QiuChenDebug";
+  private static final String TAG = "QiuChen";
 
   FrameLayout menu;
   DrawerLayout draw;
@@ -88,8 +85,8 @@ public class View_mainPage extends BaseActivity implements iContentPageChanged,
 
   Button SetAmount;
 
-  TextView Amount, Personal_TextView, Prepaid_TextView, Threshold_TextView,Personal_user,
-            Personal_sex,Personal_cardID,Personal_phoneNum,Personal_time;
+  TextView Amount, Personal_TextView, Prepaid_TextView, Threshold_TextView, Personal_user,
+          Personal_sex, Personal_cardID, Personal_phoneNum, Personal_time;
 
 
   @Override
@@ -106,6 +103,8 @@ public class View_mainPage extends BaseActivity implements iContentPageChanged,
     return set;
   }
 
+  int Personal_Center_INDEX;
+
   @Override
   public void ready() {
     int[] viewsCollection = new int[]{
@@ -121,9 +120,15 @@ public class View_mainPage extends BaseActivity implements iContentPageChanged,
             "红绿灯管理", "违章查询", "个人中心"
     };
 
+
     List<String> viewsTitles = new ArrayList<>();
     List<View> listView = new ArrayList<>();
     for (int i = 0; i < viewsCollection.length; i++) {
+      //判断个人中心的序号
+      if (viewsCollection[i] == R.layout.model_personal_center) {
+        Personal_Center_INDEX = i;
+      }
+
       View v = LayoutInflater.from(this).inflate(viewsCollection[i], null);
       //添加布局
       listView.add(v);
@@ -176,10 +181,10 @@ public class View_mainPage extends BaseActivity implements iContentPageChanged,
         break;
       case R.id.user_manage_tools_allPay:
         批量支付();
-        // Msg("支付？不存在的");
         break;
       case R.id.user_manage_tools_PayHistory:
-        Msg("穷鬼！心悦3有了吗？没有还敢谈充钱两个字？？");
+        mMainContentView.setCurrentItem(Personal_Center_INDEX);
+        click(Prepaid_TextView);
         break;
       case R.id.Personal_TextView:
         Personal_ViewPager.setCurrentItem(0);
@@ -206,7 +211,7 @@ public class View_mainPage extends BaseActivity implements iContentPageChanged,
       Map.Entry<Integer, Boolean> a = s.next();
       if (a.getValue()) {
         result.add(user.data[a.getKey()]);
-        res.append(user.data[a.getKey()].carID + ",");
+        res.append(user.data[a.getKey()].carID).append(",");
         Log.d(TAG, "批量支付: " + user.data[a.getKey()].carID);
       }
     }
@@ -397,17 +402,17 @@ public class View_mainPage extends BaseActivity implements iContentPageChanged,
   public void PersonSetViewEvent(View v, int p) {
     switch (p) {
       case 0:
-      Personal_user = v.findViewById(R.id.tv_personal_user);
-      Personal_cardID = v.findViewById(R.id.tv_personal_cardID);
-      Personal_phoneNum = v.findViewById(R.id.tv_personal_phoneNum);
-      Personal_sex = v.findViewById(R.id.tv_personal_sex);
-      Personal_time = v.findViewById(R.id.tv_personal_time);
+        Personal_user = v.findViewById(R.id.tv_personal_user);
+        Personal_cardID = v.findViewById(R.id.tv_personal_cardID);
+        Personal_phoneNum = v.findViewById(R.id.tv_personal_phoneNum);
+        Personal_sex = v.findViewById(R.id.tv_personal_sex);
+        Personal_time = v.findViewById(R.id.tv_personal_time);
 
-      Personal_user.setText(userInfo.userName.toString());
-      Personal_cardID.setText(userInfo.cardID.toString());
-      Personal_phoneNum.setText(userInfo.phoneNum.toString());
-      Personal_sex.setText(userInfo.sex.toString());
-      Personal_time.setText(userInfo.regTime.toString());
+        Personal_user.setText(userInfo.userName);
+        Personal_cardID.setText(userInfo.cardID);
+        Personal_phoneNum.setText(userInfo.phoneNum);
+        Personal_sex.setText(userInfo.sex);
+        Personal_time.setText(userInfo.regTime);
 
         break;
       case 1:
