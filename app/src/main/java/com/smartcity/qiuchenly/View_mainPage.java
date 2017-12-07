@@ -26,15 +26,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.smartcity.qiuchenly.Adapter.iContentPageChanged;
-import com.smartcity.qiuchenly.Adapter.iContentViewPagerViewEvent;
-import com.smartcity.qiuchenly.Adapter.iPersonPageChanged;
-import com.smartcity.qiuchenly.Adapter.iPersonalEvent;
-import com.smartcity.qiuchenly.Adapter.mContentRecyclerViewAdapter;
-import com.smartcity.qiuchenly.Adapter.mContentViewPager;
-import com.smartcity.qiuchenly.Adapter.mContentView_SwitchView;
-import com.smartcity.qiuchenly.Adapter.mPersonView_SwitchView;
-import com.smartcity.qiuchenly.Adapter.mPersonal_center_ViewPager;
+import com.smartcity.qiuchenly.Adapter.iController.*;
+import com.smartcity.qiuchenly.Adapter.*;
 import com.smartcity.qiuchenly.Base.ActivitySet;
 import com.smartcity.qiuchenly.Base.BaseActivity;
 import com.smartcity.qiuchenly.Base.ShareUtils;

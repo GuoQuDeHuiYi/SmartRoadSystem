@@ -1,7 +1,7 @@
 package com.smartcity.qiuchenly.Adapter;
 
 import android.support.v4.view.ViewPager;
-
+import com.smartcity.qiuchenly.Adapter.iController.*;
 import java.util.List;
 
 /**

@@ -2,7 +2,7 @@ package com.smartcity.qiuchenly.implementEvent;
 
 import android.view.View;
 
-import com.smartcity.qiuchenly.Adapter.iPersonalEvent;
+import com.smartcity.qiuchenly.Adapter.iController.*;
 
 /**
  * Created by Eason on 2017/11/12.
