@@ -26,4 +26,8 @@ public interface iController {
         void setViewEvent(int i, View view);
     }
 
+    interface iCarPayment {
+        void wantPaymentCarID(String ID, String User, int payBefore);
+    }
+
 }
