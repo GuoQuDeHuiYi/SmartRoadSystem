@@ -1,7 +1,6 @@
 package com.smartcity.qiuchenly.Presenter;
 
-import android.os.Handler;
-import android.os.Looper;
+import android.os.*;
 
 import com.google.gson.Gson;
 import com.smartcity.qiuchenly.DataModel.userLoginCallBackModel;
