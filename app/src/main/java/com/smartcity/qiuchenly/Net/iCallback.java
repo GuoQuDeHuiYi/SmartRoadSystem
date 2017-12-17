@@ -1,5 +1,6 @@
 package com.smartcity.qiuchenly.Net;
 
+import com.smartcity.qiuchenly.Base.SQ_userManageList;
 import com.smartcity.qiuchenly.DataModel.userLoginCallBackModel;
 import com.smartcity.qiuchenly.DataModel.userManageModel;
 
@@ -24,7 +25,7 @@ public interface iCallback {
   }
 
   interface getUserManageData {
-    void getDataSuccess(userManageModel data);
+    void getDataSuccess(List<SQ_userManageList> data);
 
     void getDataFailed(String errReason);
   }

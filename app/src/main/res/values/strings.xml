@@ -10,4 +10,5 @@
         <item>黄灯升序</item>
         <item>黄灯降序</item>
     </string-array>
+    <string name="title_activity_m_test_kotlin">mTestKotlin</string>
 </resources>

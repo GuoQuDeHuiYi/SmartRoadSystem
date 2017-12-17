@@ -1,7 +1,6 @@
 package com.smartcity.qiuchenly;
 
 import android.annotation.SuppressLint;
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -29,13 +28,21 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.smartcity.qiuchenly.Adapter.iController.*;
-import com.smartcity.qiuchenly.Adapter.*;
+import com.smartcity.qiuchenly.Adapter.iController;
+import com.smartcity.qiuchenly.Adapter.iController.iContentPageChanged;
+import com.smartcity.qiuchenly.Adapter.iController.iContentViewPagerViewEvent;
+import com.smartcity.qiuchenly.Adapter.iController.iPersonPageChanged;
+import com.smartcity.qiuchenly.Adapter.iController.iPersonalEvent;
+import com.smartcity.qiuchenly.Adapter.mContentRecyclerViewAdapter;
+import com.smartcity.qiuchenly.Adapter.mContentViewPager;
+import com.smartcity.qiuchenly.Adapter.mContentView_SwitchView;
+import com.smartcity.qiuchenly.Adapter.mPersonView_SwitchView;
+import com.smartcity.qiuchenly.Adapter.mPersonal_center_ViewPager;
 import com.smartcity.qiuchenly.Base.ActivitySet;
 import com.smartcity.qiuchenly.Base.BaseActivity;
+import com.smartcity.qiuchenly.Base.SQ_userManageList;
 import com.smartcity.qiuchenly.Base.ShareUtils;
 import com.smartcity.qiuchenly.Base.Utils;
-import com.smartcity.qiuchenly.DataModel.userManageModel;
 import com.smartcity.qiuchenly.Net.iCallback;
 import com.smartcity.qiuchenly.Presenter.loginPresenter;
 import com.smartcity.qiuchenly.function.fun_navigation_itemsSelect;
@@ -181,7 +188,6 @@ public class View_mainPage extends BaseActivity implements iContentPageChanged,
                 break;
             case R.id.user_manage_tools_PayHistory:
                 Utils.dataBaseHelper.mQueryPayHistory();
-
                 mMainContentView.setCurrentItem(Personal_Center_INDEX);
                 click(Prepaid_TextView);
                 break;
@@ -202,23 +208,23 @@ public class View_mainPage extends BaseActivity implements iContentPageChanged,
 
     void 批量支付() {
         Map<Integer, Boolean> list = mAdapter.getCheckedItems();
-        userManageModel user = mAdapter.getItems();
+        List<SQ_userManageList> user = mAdapter.getItems();
         Iterator<Map.Entry<Integer, Boolean>> s = list.entrySet().iterator();
-        List<userManageModel.datas> result = new ArrayList<>();
+        List<SQ_userManageList> result = new ArrayList<>();
         StringBuilder res = new StringBuilder();
         while (s.hasNext()) {
             Map.Entry<Integer, Boolean> a = s.next();
             if (a.getValue()) {
-                result.add(user.data[a.getKey()]);
-                res.append(user.data[a.getKey()].carID).append(",");
-                Log.d(TAG, "批量支付: " + user.data[a.getKey()].carID);
+                result.add(user.get(a.getKey()));
+                res.append(user.get(a.getKey()).user_carID).append(",");
+                Log.d(TAG, "批量支付: " + user.get(a.getKey()).user_carID);
             }
         }
         if (res.toString().equals("")) {
             Msg("请选择充值的对象后再继续操作！");
             return;
         }
-        this.wantPaymentCarID(res.toString(), "", 0);
+        this.wantPaymentCarID(res.toString(), Utils.getNowLoginUser(), 0);
         Msg("批量支付的车牌号对象:" + res);
     }
 
@@ -278,7 +284,7 @@ public class View_mainPage extends BaseActivity implements iContentPageChanged,
                         outRect.right = 15;
                     }
                 });
-                mAdapter = new mContentRecyclerViewAdapter(new userManageModel(), this);
+                mAdapter = new mContentRecyclerViewAdapter(new ArrayList<SQ_userManageList>(), this);
                 mAdapter.setOnItemClickListener(new mContentRecyclerViewAdapter.onItemClickListener() {
                     @Override
                     public void setOnClickListener(View v, int position) {
@@ -392,7 +398,7 @@ public class View_mainPage extends BaseActivity implements iContentPageChanged,
 
 
     @Override
-    public void getDataSuccess(final userManageModel data) {
+    public void getDataSuccess(final List<SQ_userManageList> data) {
         mAdapter.addListData(data);
         mAdapter.notifyDataSetChanged();
     }
@@ -468,9 +474,8 @@ public class View_mainPage extends BaseActivity implements iContentPageChanged,
     boolean isPay = false;
 
     @Override
-    public void wantPaymentCarID(final String ID, String User, int payBefore) {
+    public void wantPaymentCarID(final String ID, String User, final int payBefore) {
         isPay = false;
-
         final AlertDialog.Builder dialog = new AlertDialog.Builder(this);
         View v = LayoutInflater.from(this).inflate(R.layout.dialog_car_pay, null);
         TextView CarID = v.findViewById(R.id.car_pay_carID);
@@ -507,13 +512,19 @@ public class View_mainPage extends BaseActivity implements iContentPageChanged,
                     //TODO:在这里编写数据库插入指令
 
                     int MODE = 0;//默认是单个账户充值
-                    if (ID.equals(",")) {
-                        MODE = 1;//多账户充值
+                    if (ID.contains(",")) {
+                        MODE = 1;//多账户充值辽A10002,辽A10003,
                     }
 
                     if (MODE == 0) {
                         //此处直接调用数据库单个实例插入数据方法
+                        Utils.dataBaseHelper.mPay_History_InsertItems(ID,
+                                getMoney, payBefore + getMoney,
+                                Utils.getNowLoginUser());
+                        Utils.dataBaseHelper.mUpdateTotalMoney(ID, payBefore + getMoney);
                         Msg("单个账户充值成功！");
+                        mAdapter.addListData(Utils.dataBaseHelper.mUser_getAll());
+                        mAdapter.notifyDataSetChanged();
                         return;
                     }
                     String IDs = ID.substring(0, ID.length() - 1);
@@ -521,7 +532,14 @@ public class View_mainPage extends BaseActivity implements iContentPageChanged,
                     String[] mList = IDs.split(",");
                     for (String id : mList) {
                         //开始调用单条数据循环插入数据库
+                        int t = Utils.dataBaseHelper.mGetBalanceByCarID(id) + getMoney;
+                        Utils.dataBaseHelper.mPay_History_InsertItems(id,
+                                getMoney, t,
+                                Utils.getNowLoginUser());
+                        Utils.dataBaseHelper.mUpdateTotalMoney(id, t);
                     }
+                    mAdapter.addListData(Utils.dataBaseHelper.mUser_getAll());
+                    mAdapter.notifyDataSetChanged();
                     Msg("多账户充值成功！");
                 }
             }

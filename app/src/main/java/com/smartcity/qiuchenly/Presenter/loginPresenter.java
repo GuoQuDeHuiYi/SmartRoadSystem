@@ -3,11 +3,14 @@ package com.smartcity.qiuchenly.Presenter;
 import android.os.*;
 
 import com.google.gson.Gson;
+import com.smartcity.qiuchenly.Base.SQ_userManageList;
 import com.smartcity.qiuchenly.DataModel.userLoginCallBackModel;
 import com.smartcity.qiuchenly.DataModel.userManageModel;
 import com.smartcity.qiuchenly.Net.iCallback;
 import com.smartcity.qiuchenly.Net.iLoginAPI;
 import com.smartcity.qiuchenly.Net.LoginAPI;
+
+import java.util.List;
 
 /**
  * Author: qiuchenly
@@ -77,7 +80,7 @@ public class loginPresenter implements iLoginAPI {
       public void run() {
         Login.getManageUser(new iCallback.getUserManageData() {
           @Override
-          public void getDataSuccess(final userManageModel data) {
+          public void getDataSuccess(final List<SQ_userManageList> data) {
             handler.post(new Runnable() {
               @Override
               public void run() {

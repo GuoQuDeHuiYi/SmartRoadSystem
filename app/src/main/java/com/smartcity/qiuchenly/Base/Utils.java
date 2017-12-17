@@ -347,4 +347,8 @@ public class Utils {
                     DATABASE_NAME, null, DATABASE_VERSION);
         }
     }
+
+    public static String getNowLoginUser() {
+        return Utils.userInfo.userName;
+    }
 }

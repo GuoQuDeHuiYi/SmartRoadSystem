@@ -14,6 +14,7 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.smartcity.qiuchenly.Base.SQ_userManageList;
 import com.smartcity.qiuchenly.Base.SharedContext;
 import com.smartcity.qiuchenly.Base.Utils;
 import com.smartcity.qiuchenly.DataModel.userManageModel;
@@ -22,6 +23,7 @@ import com.smartcity.qiuchenly.Adapter.*;
 
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -37,7 +39,7 @@ public class mContentRecyclerViewAdapter extends
         RecyclerView.Adapter<mContentRecyclerViewAdapter.VH>
         implements View.OnClickListener, View.OnLongClickListener {
 
-    userManageModel lists;
+    List<SQ_userManageList> lists;
 
     Context con;
 
@@ -49,11 +51,11 @@ public class mContentRecyclerViewAdapter extends
     //设置接口实例
     private onItemClickListener onItemClickListener;
 
-    public void addListData(userManageModel lists) {
+    public void addListData(List<SQ_userManageList> lists) {
         this.lists = lists;
     }
 
-    public mContentRecyclerViewAdapter(userManageModel lists, iController.iCarPayment carPayment) {
+    public mContentRecyclerViewAdapter(List<SQ_userManageList> lists, iController.iCarPayment carPayment) {
         this.lists = lists;
         this.carPayment = carPayment;
         con = SharedContext.getContext();
@@ -63,7 +65,7 @@ public class mContentRecyclerViewAdapter extends
     void checkBoxInit() {
         checkBoxItems = new HashMap<>();
         //默认全部取消选中
-        for (int a = 0; a < lists.data.length; a++) {
+        for (int a = 0; a < lists.size(); a++) {
             checkBoxItems.put(a, false);
         }
     }
@@ -77,24 +79,25 @@ public class mContentRecyclerViewAdapter extends
         return vh;
     }
 
+    //    List<SQ_userManageList>
     @Override
     public void onBindViewHolder(final VH h, final int p) {
-        final userManageModel.datas user = lists.data[p];
+        final SQ_userManageList user = lists.get(p);
         h.index.setText(p + 1 + "");//fix INDEX bug
         h.payMent.setText("充值");
         h.payMent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                carPayment.wantPaymentCarID(user.carID, user.carMaster, user.totalMoney);
+                carPayment.wantPaymentCarID(user.user_carID, user.user_name, user.user_totalMoney);
             }
         });
-        h.carID.setText(user.carID);
-        h.carMaster.setText("车主:" + user.carMaster);
-        h.total.setText("余额:" + user.totalMoney + "元" + (user.totalMoney < Utils.getMoneyLimitValue()
+        h.carID.setText(user.user_carID);
+        h.carMaster.setText("车主:" + user.user_name);
+        h.total.setText("余额:" + user.user_totalMoney + "元" + (user.user_totalMoney < Utils.getMoneyLimitValue()
                 ? "\n[余额不足]" : ""));
-        h.total.setTextColor(Color.parseColor((user.totalMoney >= Utils.getMoneyLimitValue()
+        h.total.setTextColor(Color.parseColor((user.user_totalMoney >= Utils.getMoneyLimitValue()
                 ? "#FFFFFF" : "#FFCC00")));
-        h.user_manage_index_image.setImageBitmap(getCarImg(user.carTypePic));
+        h.user_manage_index_image.setImageBitmap(getCarImg(user.user_carPic));
         h.selectPayAll.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -136,10 +139,10 @@ public class mContentRecyclerViewAdapter extends
 
     @Override
     public int getItemCount() {
-        return lists.data.length;
+        return lists.size();
     }
 
-    public userManageModel getItems() {
+    public List<SQ_userManageList> getItems() {
         return lists;
     }
 
