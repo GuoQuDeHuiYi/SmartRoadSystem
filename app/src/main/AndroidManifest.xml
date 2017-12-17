@@ -30,8 +30,12 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".View_LoginPage_K"
-            android:label="@string/title_activity_m_test_kotlin"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".View_Splash_K"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

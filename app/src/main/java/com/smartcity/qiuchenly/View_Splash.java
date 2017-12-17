@@ -57,7 +57,7 @@ public class View_Splash extends BaseActivity implements Handler.Callback {
   public void ready() {
 
     Utils.mInitDataBase();//初始化数据库
-    ShareUtils.getSharePreferences(SharedContext.getContext());
+    ShareUtils.getSharePreferences();
     handler = new Handler(this.getMainLooper(), this);
 //    1 ScaleAnimation 缩放
 //    2 TranslateAnimation 平移
