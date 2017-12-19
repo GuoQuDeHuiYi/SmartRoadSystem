@@ -1,8 +1,11 @@
 package com.smartcity.qiuchenly.function.PersonalCenter
 
+import android.graphics.BitmapFactory
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
+import com.smartcity.qiuchenly.Base.SharedContext
+import com.smartcity.qiuchenly.Base.Utils
 import com.smartcity.qiuchenly.DataModel.userCars
 import com.smartcity.qiuchenly.R
 import kotlinx.android.synthetic.main.personal_page_infomation_usercars.view.*
@@ -42,9 +45,10 @@ class personal_myCars(private var mList: List<userCars>) : RecyclerView.Adapter<
     }
 
     override fun onBindViewHolder(holder: personal_myCars_VH, position: Int) {
-
         with(holder.itemView) {
-            mPersonalInfomationUserCars.setImageBitmap(getIDByIndex(mList[position].carPic))
+            val bitmap = BitmapFactory.decodeStream(SharedContext.getContext().
+                    resources.openRawResource(getIDByIndex(mList[position].carPic)))
+            mPersonalInfomationUserCars.setImageBitmap(bitmap)
         }
 
     }
@@ -52,7 +56,8 @@ class personal_myCars(private var mList: List<userCars>) : RecyclerView.Adapter<
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):
             personal_myCars_VH {
-        return personal_myCars_VH(View.inflate(parent.context, R.layout.personal_page_infomation_usercars, parent))
+        return personal_myCars_VH(View.inflate(parent.context,
+                R.layout.personal_page_infomation_usercars, null))
     }
 
 

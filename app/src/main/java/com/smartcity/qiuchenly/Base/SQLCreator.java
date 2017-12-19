@@ -204,7 +204,7 @@ public class SQLCreator {
     public SQLCreator Build() {
       String exec = "select * from " + mTableName + " where ";
       for (Map.Entry<String, String> m : map.entrySet()) {
-        exec += m.getKey() + " " + m.getValue() + ",";
+        exec += m.getKey() + " = " + m.getValue() + ",";
       }
       exec = exec.substring(0, exec.length() - 1);
       return new SQLCreator(exec);
