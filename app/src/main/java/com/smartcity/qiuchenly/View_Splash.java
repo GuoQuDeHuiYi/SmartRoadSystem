@@ -8,7 +8,6 @@ import android.widget.Button;
 import com.smartcity.qiuchenly.Base.ActivitySet;
 import com.smartcity.qiuchenly.Base.BaseActivity;
 import com.smartcity.qiuchenly.Base.ShareUtils;
-import com.smartcity.qiuchenly.Base.SharedContext;
 import com.smartcity.qiuchenly.Base.ThreadTimer;
 import com.smartcity.qiuchenly.Base.Utils;
 

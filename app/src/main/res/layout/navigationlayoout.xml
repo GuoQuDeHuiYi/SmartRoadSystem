@@ -34,6 +34,7 @@
                     android:layout_marginLeft="20dp">
 
                     <TextView
+                        android:id="@+id/mNavigationUserName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="隔壁老王，你好。"

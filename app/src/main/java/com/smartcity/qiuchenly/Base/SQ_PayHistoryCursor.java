@@ -5,6 +5,6 @@ package com.smartcity.qiuchenly.Base;
  */
 
 public class SQ_PayHistoryCursor {
-    public String carID, whoPay;
+    public String carID, whoPay,payTime;
     public int id,pay, totalMoney;
 }

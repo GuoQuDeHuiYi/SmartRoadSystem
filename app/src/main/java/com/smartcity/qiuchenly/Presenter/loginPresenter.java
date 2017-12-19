@@ -1,14 +1,14 @@
 package com.smartcity.qiuchenly.Presenter;
 
-import android.os.*;
+import android.os.Handler;
+import android.os.Looper;
 
 import com.google.gson.Gson;
 import com.smartcity.qiuchenly.Base.SQ_userManageList;
 import com.smartcity.qiuchenly.DataModel.userLoginCallBackModel;
-import com.smartcity.qiuchenly.DataModel.userManageModel;
+import com.smartcity.qiuchenly.Net.LoginAPI;
 import com.smartcity.qiuchenly.Net.iCallback;
 import com.smartcity.qiuchenly.Net.iLoginAPI;
-import com.smartcity.qiuchenly.Net.LoginAPI;
 
 import java.util.List;
 

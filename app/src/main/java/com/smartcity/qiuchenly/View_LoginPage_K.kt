@@ -27,6 +27,14 @@ class View_LoginPage_K : BaseActivity(), iCallback.loginCallBack {
     }
 
     override fun ready() {
+        presenter = loginPresenter()
+        if (ShareUtils.getBoolean("autoLogin")) {
+            presenter?.login(
+                    ShareUtils.get("userName"),
+                    ShareUtils.get("passWord"),
+                    this)
+            return
+        }
         when (ShareUtils.getBoolean("isLogin")) {
             true -> {
                 UserName.setText(ShareUtils.get("userName"))
@@ -34,8 +42,6 @@ class View_LoginPage_K : BaseActivity(), iCallback.loginCallBack {
                 m_LoginView_rememberPass.isChecked = true
             }
         }
-        if (ShareUtils.getBoolean("autoLogin")) click(m_LoginView_mLogin)
-        presenter = loginPresenter()
     }
 
     /**
@@ -67,12 +73,14 @@ class View_LoginPage_K : BaseActivity(), iCallback.loginCallBack {
     override fun loginSuccess(result: String?) {}   //无需实现此方法
 
     override fun loginSuccess(userInfo: userLoginCallBackModel?) {
-        if (m_LoginView_rememberPass.isChecked) {
+        if (m_LoginView_rememberPass.isChecked
+                or ShareUtils.getBoolean("autoLogin")) {
             ShareUtils.put("isLogin", true)
             ShareUtils.put<String>("userName", UserName.text.toString())
             ShareUtils.put<String>("passWord", passWord.text.toString())
         }
-        if (m_LoginView_autoLogin.isChecked) {
+        if (m_LoginView_autoLogin.isChecked
+                or ShareUtils.getBoolean("autoLogin")) {
             ShareUtils.put("autoLogin", true)
         }
         Utils.userInfo = userInfo//数据保存

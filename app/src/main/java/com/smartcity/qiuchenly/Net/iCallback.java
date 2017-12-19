@@ -2,7 +2,6 @@ package com.smartcity.qiuchenly.Net;
 
 import com.smartcity.qiuchenly.Base.SQ_userManageList;
 import com.smartcity.qiuchenly.DataModel.userLoginCallBackModel;
-import com.smartcity.qiuchenly.DataModel.userManageModel;
 
 import java.util.List;
 

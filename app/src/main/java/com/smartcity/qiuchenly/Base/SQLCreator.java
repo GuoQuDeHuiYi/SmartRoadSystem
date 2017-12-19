@@ -106,7 +106,7 @@ public class SQLCreator {
   }
 
 
-  public class InsertItemBuilder {
+  public static class InsertItemBuilder {
     private String mTableName = "";
     private Map<String, String> map;
 
@@ -181,7 +181,32 @@ public class SQLCreator {
       //start resolves or symbol
       for (String str : mOrs)
         exec += str + " or ";
-      exec = exec.substring(0, exec.length() - " or ".length())+";";
+      exec = exec.substring(0, exec.length() - " or ".length()) + ";";
+      return new SQLCreator(exec);
+    }
+  }
+
+  public static class GetItemsBuilder {
+    private String mTableName;
+    private Map<String, String> map;
+
+    //select * from tableName where id = 123
+    public GetItemsBuilder(String tableName) {
+      this.mTableName = tableName;
+      map = new HashMap<>();
+    }
+
+    public GetItemsBuilder AddAttribute(String attrName, String attrValue) {
+      map.put(attrName, attrValue);
+      return this;
+    }
+
+    public SQLCreator Build() {
+      String exec = "select * from " + mTableName + " where ";
+      for (Map.Entry<String, String> m : map.entrySet()) {
+        exec += m.getKey() + " " + m.getValue() + ",";
+      }
+      exec = exec.substring(0, exec.length() - 1);
       return new SQLCreator(exec);
     }
   }

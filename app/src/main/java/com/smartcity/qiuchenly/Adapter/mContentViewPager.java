@@ -4,8 +4,7 @@ import android.support.v4.view.PagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.smartcity.qiuchenly.Base.SharedContext;
-import com.smartcity.qiuchenly.Adapter.iController.*;
+import com.smartcity.qiuchenly.Adapter.iController.iContentViewPagerViewEvent;
 
 import java.util.List;
 

@@ -44,13 +44,6 @@ class View_Splash_K : BaseActivity() {
         if (isTwiceOpen)
             go(View_LoginPage_K::class.java, true)
         else {
-            //初始化表
-            Utils.dataBaseHelper.mCreateUserManageTabel()
-            Utils.dataBaseHelper.mCreateNewPayHistoryTable()
-            Utils.dataBaseHelper.mUser_insert(1, "辽A10001", "张三", 0)
-            Utils.dataBaseHelper.mUser_insert(2, "辽A10002", "李四", 0)
-            Utils.dataBaseHelper.mUser_insert(3, "辽A10003", "王五", 0)
-            Utils.dataBaseHelper.mUser_insert(4, "辽A10004", "赵六", 0)
             time.Start()
         }
 

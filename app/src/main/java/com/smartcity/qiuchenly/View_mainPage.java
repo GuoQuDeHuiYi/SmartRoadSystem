@@ -10,6 +10,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -40,11 +41,13 @@ import com.smartcity.qiuchenly.Adapter.mPersonView_SwitchView;
 import com.smartcity.qiuchenly.Adapter.mPersonal_center_ViewPager;
 import com.smartcity.qiuchenly.Base.ActivitySet;
 import com.smartcity.qiuchenly.Base.BaseActivity;
+import com.smartcity.qiuchenly.Base.SQ_PayHistoryCursor;
 import com.smartcity.qiuchenly.Base.SQ_userManageList;
 import com.smartcity.qiuchenly.Base.ShareUtils;
 import com.smartcity.qiuchenly.Base.Utils;
 import com.smartcity.qiuchenly.Net.iCallback;
 import com.smartcity.qiuchenly.Presenter.loginPresenter;
+import com.smartcity.qiuchenly.function.PersonalCenter.personal_payHistoryRV;
 import com.smartcity.qiuchenly.function.fun_navogation_itemSelect_K;
 import com.smartcity.qiuchenly.function.iNavigation_items_Click;
 
@@ -90,7 +93,7 @@ public class View_mainPage extends BaseActivity implements iContentPageChanged,
   Button SetAmount;
 
   TextView Amount, Personal_TextView, Prepaid_TextView, Threshold_TextView, Personal_user,
-          Personal_sex, Personal_cardID, Personal_phoneNum, Personal_time;
+          Personal_sex, Personal_cardID, Personal_phoneNum, Personal_time, mNavigationUserName;
 
 
   @Override
@@ -111,6 +114,7 @@ public class View_mainPage extends BaseActivity implements iContentPageChanged,
 
   @Override
   public void ready() {
+    mNavigationUserName.setText(Utils.userInfo.userName);
     int[] viewsCollection = new int[]{
             R.layout.model_usermanage,
             R.layout.model_businquery,
@@ -146,7 +150,7 @@ public class View_mainPage extends BaseActivity implements iContentPageChanged,
     mMainContentView_title.setText(viewTitle[0]);
 
     Bitmap bits = BitmapFactory.decodeResource(getResources(), R.mipmap.maincontent);
-    for (int a = 0; a < 5; a++) {
+    for (int a = 0; a < 1; a++) {
       bits = Utils.blur(bits, 17f);
     }
     contentBitmap.setImageBitmap(bits);
@@ -161,7 +165,7 @@ public class View_mainPage extends BaseActivity implements iContentPageChanged,
       public void onGlobalLayout() {
         mContentRl.buildDrawingCache();
         Bitmap bit = mContentRl.getDrawingCache();
-        for (int a = 0; a < 50; a++) {
+        for (int a = 0; a < 1; a++) {
           bit = Utils.blurBitmapRender(bit, mMainToolBar, 25f, 2);
         }
         mMainToolBar.setBackground(new BitmapDrawable(bit));
@@ -240,6 +244,7 @@ public class View_mainPage extends BaseActivity implements iContentPageChanged,
     mContentRl = find(R.id.mContentRl);
     mMainToolBar = find(R.id.mMainToolBar);
     contentBitmap = find(R.id.contentBitmap);
+    mNavigationUserName = find(R.id.mNavigationUserName);
   }
 
   @Override
@@ -368,8 +373,8 @@ public class View_mainPage extends BaseActivity implements iContentPageChanged,
     Personal_ViewPager = view.findViewById(R.id.Personal_viewpager);
     List<View> list = new ArrayList<>();
     for (int a = 0; a < 3; a++) {
-      View v = LayoutInflater.from(this).inflate(a == 1 ? R.layout.prepaid : a == 2 ?
-              R.layout.threshold : R.layout.personal, null);
+      View v = LayoutInflater.from(this).inflate(a == 1 ? R.layout.personal_page_prepaid : a == 2 ?
+              R.layout.personal_page_threshold : R.layout.personal_page_infomation, null);
       list.add(v);
     }
     Personal_ViewPager.setOffscreenPageLimit(3);
@@ -408,6 +413,13 @@ public class View_mainPage extends BaseActivity implements iContentPageChanged,
     Msg(errReason);
   }
 
+  RecyclerView personal_RV;
+
+  //个人中心的设置
+
+
+  personal_payHistoryRV personal_payHistoryRV;//个人中心充值历史查询RV
+
   @Override
   public void PersonSetViewEvent(View v, int p) {
     switch (p) {
@@ -423,9 +435,20 @@ public class View_mainPage extends BaseActivity implements iContentPageChanged,
         Personal_phoneNum.setText(userInfo.phoneNum);
         Personal_sex.setText(userInfo.sex);
         Personal_time.setText(userInfo.regTime);
-
         break;
       case 1:
+        personal_RV = v.findViewById(R.id.prepaid_payHistory);
+        personal_RV.addItemDecoration(new RecyclerView.ItemDecoration() {
+          @Override
+          public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+            outRect.bottom = 10;
+          }
+        });
+        List<SQ_PayHistoryCursor> mList = Utils.dataBaseHelper.mQueryPayHistory();
+        personal_payHistoryRV = new personal_payHistoryRV(mList);
+        personal_RV.setLayoutManager(new LinearLayoutManager(v.getContext()));
+        personal_RV.setItemAnimator(new DefaultItemAnimator());
+        personal_RV.setAdapter(personal_payHistoryRV);
         break;
       case 2:
         SetAmount = v.findViewById(R.id.SetAmount);
@@ -539,7 +562,11 @@ public class View_mainPage extends BaseActivity implements iContentPageChanged,
             Utils.dataBaseHelper.mUpdateTotalMoney(id, t);
           }
           mAdapter.addListData(Utils.dataBaseHelper.mUser_getAll());
+          mAdapter.checkBoxInit();
           mAdapter.notifyDataSetChanged();
+          //同步更新个人中心RV
+          personal_payHistoryRV.updateData(Utils.dataBaseHelper.mQueryPayHistory());
+          personal_payHistoryRV.notifyDataSetChanged();
           Msg("多账户充值成功！");
         }
       }

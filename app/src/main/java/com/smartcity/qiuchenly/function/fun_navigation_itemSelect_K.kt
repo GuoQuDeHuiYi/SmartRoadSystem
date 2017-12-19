@@ -1,12 +1,10 @@
 package com.smartcity.qiuchenly.function
 
-import android.content.Context
-import android.support.v7.app.AppCompatActivity
+import android.app.Activity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import com.smartcity.qiuchenly.Adapter.mFun_nav_RlAdapter
 import com.smartcity.qiuchenly.R
-import kotlinx.android.synthetic.main.navigationlayoout.view.*
 
 
 /**
@@ -17,7 +15,7 @@ import kotlinx.android.synthetic.main.navigationlayoout.view.*
  * ProjectName:SmartRoadSystem
  * Create: 2017 12 17 , on 20:30
  */
-class fun_navogation_itemSelect_K(con: AppCompatActivity,
+class fun_navogation_itemSelect_K(con: Activity,
                                   list: List<String>,
                                   iNavigation_items_Click: iNavigation_items_Click) {
     init {

@@ -2,14 +2,16 @@ package com.smartcity.qiuchenly;
 
 
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 
-import com.smartcity.qiuchenly.Base.*;
+import com.smartcity.qiuchenly.Base.ActivitySet;
+import com.smartcity.qiuchenly.Base.BaseActivity;
+import com.smartcity.qiuchenly.Base.ShareUtils;
+import com.smartcity.qiuchenly.Base.Utils;
 import com.smartcity.qiuchenly.DataModel.userLoginCallBackModel;
 import com.smartcity.qiuchenly.Net.iCallback;
 import com.smartcity.qiuchenly.Presenter.loginPresenter;
@@ -107,6 +109,7 @@ public class View_LoginPage extends BaseActivity implements iCallback.loginCallB
 
   @Override
   public void loginFailed(String errReason) {
+    ShareUtils.put("isLogin",false);
     Msg(errReason);
   }
 }
