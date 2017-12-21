@@ -170,6 +170,8 @@ public class View_mainPage extends BaseActivity implements iContentPageChanged,
             }
         });
         presenter = new loginPresenter();
+
+        //委托事件处理类,处理侧滑菜单中的点击跳转页面事件
         fun_navigation_itemsSelect = new fun_navogation_itemSelect_K
                 (this, viewsTitles, this);
     }
