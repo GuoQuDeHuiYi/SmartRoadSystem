@@ -23,7 +23,7 @@ public interface iController {
 
     interface iContentViewPagerViewEvent {
         //初始化每一个View的事件bind
-        void setViewEvent(int i, View view);
+        void setViewEvent(View view);
     }
 
     interface iCarPayment {

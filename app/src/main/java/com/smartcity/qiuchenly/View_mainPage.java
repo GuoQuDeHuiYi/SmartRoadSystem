@@ -90,7 +90,7 @@ public class View_mainPage extends BaseActivity implements iContentPageChanged,
 
     TextView Amount, Personal_TextView, Prepaid_TextView, Threshold_TextView, Personal_user,
             Personal_sex, Personal_cardID, Personal_phoneNum, Personal_time, mNavigationUserName,
-    mLogoutUser;
+            mLogoutUser;
 
     @Override
     public int getLayout() {
@@ -108,23 +108,22 @@ public class View_mainPage extends BaseActivity implements iContentPageChanged,
 
     int Personal_Center_INDEX;
 
+    private final static int[] viewsCollection = new int[]{
+            R.layout.model_usermanage,
+            R.layout.model_businquery,
+            R.layout.model_lightmanage,
+            R.layout.model_car_break_rules_and_regulations,
+            R.layout.model_personal_center
+    };
+
+    private final static String[] viewTitle = new String[]{
+            "账户管理", "公交查询",
+            "红绿灯管理", "违章查询", "个人中心"
+    };
+
     @Override
     public void ready() {
         mNavigationUserName.setText(Utils.userInfo.userName);
-        int[] viewsCollection = new int[]{
-                R.layout.model_usermanage,
-                R.layout.model_businquery,
-                R.layout.model_lightmanage,
-                R.layout.model_car_break_rules_and_regulations,
-                R.layout.model_personal_center
-        };
-
-        String[] viewTitle = new String[]{
-                "用户管理", "公交查询",
-                "红绿灯管理", "违章查询", "个人中心"
-        };
-
-
         List<String> viewsTitles = new ArrayList<>();
         List<View> listView = new ArrayList<>();
         for (int i = 0; i < viewsCollection.length; i++) {
@@ -132,8 +131,12 @@ public class View_mainPage extends BaseActivity implements iContentPageChanged,
             if (viewsCollection[i] == R.layout.model_personal_center) {
                 Personal_Center_INDEX = i;
             }
-
+            if (Utils.userInfo.isVIP.equals("0")) {
+                if (i == 0 || i == 2)
+                    continue;
+            }
             View v = LayoutInflater.from(this).inflate(viewsCollection[i], null);
+            v.setTag(viewsCollection[i]);
             //添加布局
             listView.add(v);
             //名称
@@ -142,13 +145,11 @@ public class View_mainPage extends BaseActivity implements iContentPageChanged,
         mContentViewPager ViewPager = new mContentViewPager(listView, this);
         mMainContentView.setAdapter(ViewPager);
         mMainContentView.setOffscreenPageLimit(10);
-        mMainContentView.setOnPageChangeListener(new mContentView_SwitchView(this, viewsTitles));
-        mMainContentView_title.setText(viewTitle[0]);
-
+        mMainContentView.addOnPageChangeListener(new mContentView_SwitchView(this, viewsTitles));
+        mMainContentView_title.setText(viewsTitles.get(0));
         Bitmap bits = BitmapFactory.decodeResource(getResources(), R.mipmap.maincontent);
-        for (int a = 0; a < 1; a++) {
+        for (int a = 0; a < 1; a++)
             bits = Utils.blur(bits, 25f);
-        }
         contentBitmap.setImageBitmap(bits);
 
 
@@ -202,7 +203,7 @@ public class View_mainPage extends BaseActivity implements iContentPageChanged,
                 break;
             case R.id.mNavigationLogOut:
                 Utils_K.Companion.mClearUserCache();
-                go(View_LoginPage_K.class,true);
+                go(View_LoginPage_K.class, true);
                 break;
             default:
 
@@ -245,7 +246,7 @@ public class View_mainPage extends BaseActivity implements iContentPageChanged,
         mMainToolBar = find(R.id.mMainToolBar);
         contentBitmap = find(R.id.contentBitmap);
         mNavigationUserName = find(R.id.mNavigationUserName);
-        mLogoutUser = find(R.id.mNavigationLogOut,true);
+        mLogoutUser = find(R.id.mNavigationLogOut, true);
     }
 
     @Override
@@ -277,9 +278,9 @@ public class View_mainPage extends BaseActivity implements iContentPageChanged,
     ImageView hospitalImg, lenovoImg;
 
     @Override
-    public void setViewEvent(int i, View view) {
-        switch (i) {
-            case 0:
+    public void setViewEvent(View view) {
+        switch ((int) view.getTag()) {
+            case R.layout.model_usermanage:
                 user_manage_items_recyclerView = view.findViewById(R.id.user_manage_items_recyclerView);
                 user_manage_items_recyclerView.setLayoutManager(new LinearLayoutManager(this));
                 user_manage_items_recyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
@@ -322,7 +323,7 @@ public class View_mainPage extends BaseActivity implements iContentPageChanged,
                 //
                 //解决方法：使用主线程更新控件信息。
                 break;
-            case 1:
+            case R.layout.model_businquery:
                 lenovo = view.findViewById(R.id.lenovoStation);
                 hospital = view.findViewById(R.id.hospitalStation);
                 lenovoInfo = view.findViewById(R.id.lenovoStationInfo);
@@ -362,7 +363,11 @@ public class View_mainPage extends BaseActivity implements iContentPageChanged,
                     }
                 });
                 break;
-            case 4:
+            case R.layout.model_lightmanage:
+                break;
+            case R.layout.model_car_break_rules_and_regulations:
+                break;
+            case R.layout.model_personal_center:
                 InitPersonal(view);
                 break;
             default:
@@ -447,9 +452,9 @@ public class View_mainPage extends BaseActivity implements iContentPageChanged,
                     @Override
                     public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
                         super.getItemOffsets(outRect, view, parent, state);
-                        outRect.left =5;
-                        outRect.right=5;
-                        outRect.bottom=10;
+                        outRect.left = 5;
+                        outRect.right = 5;
+                        outRect.bottom = 10;
                     }
                 });
                 personal_myCarsRV.setAdapter(personal_myCars);
@@ -610,6 +615,7 @@ public class View_mainPage extends BaseActivity implements iContentPageChanged,
             personal_payHistoryRV.notifyDataSetChanged();
             youSelfThings();
         }
+
         public abstract void youSelfThings();
     }
 }

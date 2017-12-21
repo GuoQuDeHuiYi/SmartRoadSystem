@@ -40,7 +40,7 @@ public class mContentViewPager extends PagerAdapter {
   @Override
   public Object instantiateItem(ViewGroup container, int position) {
     View v = lists.get(position);
-    event.setViewEvent(position, v);
+    event.setViewEvent(v);
     container.addView(v);
     return v;
   }
