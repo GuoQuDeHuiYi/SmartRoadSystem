@@ -12,11 +12,12 @@ import android.renderscript.ScriptIntrinsicBlur;
 import android.view.View;
 
 import com.google.gson.Gson;
+import com.smartcity.qiuchenly.Adapter.mDataBaseHelper;
 import com.smartcity.qiuchenly.DataModel.userLoginCallBackModel;
-import com.smartcity.qiuchenly.VirtualData.userManageDataBase;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -334,4 +335,20 @@ public class Utils {
   }
 
   public static userLoginCallBackModel userInfo;
+
+  public static mDataBaseHelper dataBaseHelper;
+
+  private static final String DATABASE_NAME = "mDataBase.db";
+  private static final int DATABASE_VERSION = 1;
+
+  public static void mInitDataBase() {
+    if (dataBaseHelper == null) {
+      dataBaseHelper = new mDataBaseHelper(SharedContext.getContext(),
+              DATABASE_NAME, null, DATABASE_VERSION);
+    }
+  }
+
+  public static String getNowLoginUser() {
+    return Utils.userInfo.userName;
+  }
 }

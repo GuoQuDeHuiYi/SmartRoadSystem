@@ -1,12 +1,8 @@
 package com.smartcity.qiuchenly.function;
 
-import android.bluetooth.le.AdvertiseData;
-import android.content.Context;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
 
 import com.smartcity.qiuchenly.Adapter.mFun_nav_RlAdapter;
 import com.smartcity.qiuchenly.R;
@@ -24,7 +20,8 @@ public class fun_navigation_itemsSelect {
     private AppCompatActivity content_View;
     RecyclerView RecyclerView;
 
-    public fun_navigation_itemsSelect(List<String> list, AppCompatActivity content_View,
+    public fun_navigation_itemsSelect(List<String> list,
+                                      AppCompatActivity content_View,
                                       iNavigation_items_Click iNavigation_items_Click) {
         this.list = list;
         this.content_View = content_View;

@@ -1,7 +1,5 @@
 package com.smartcity.qiuchenly.DataModel;
 
-import java.util.List;
-
 /**
  * Author: qiuchenly
  * Date   : 09/11/2017

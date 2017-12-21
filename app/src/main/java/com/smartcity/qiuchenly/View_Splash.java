@@ -2,14 +2,12 @@ package com.smartcity.qiuchenly;
 
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
 import com.smartcity.qiuchenly.Base.ActivitySet;
 import com.smartcity.qiuchenly.Base.BaseActivity;
 import com.smartcity.qiuchenly.Base.ShareUtils;
-import com.smartcity.qiuchenly.Base.SharedContext;
 import com.smartcity.qiuchenly.Base.ThreadTimer;
 import com.smartcity.qiuchenly.Base.Utils;
 
@@ -56,7 +54,9 @@ public class View_Splash extends BaseActivity implements Handler.Callback {
    */
   @Override
   public void ready() {
-    ShareUtils.getSharePreferences(SharedContext.getContext());
+
+    Utils.mInitDataBase();//初始化数据库
+    ShareUtils.getSharePreferences();
     handler = new Handler(this.getMainLooper(), this);
 //    1 ScaleAnimation 缩放
 //    2 TranslateAnimation 平移
@@ -68,6 +68,7 @@ public class View_Splash extends BaseActivity implements Handler.Callback {
     times = new ThreadTimer(handler, 1000, 3000, false, true) {
       @Override
       public void TimeCallBack(long totalTime) {
+
         jmp.setText("跳过 (" + totalTime / 1000 + "s)");
         if (totalTime == 0) {
           click(jmp);
@@ -75,9 +76,17 @@ public class View_Splash extends BaseActivity implements Handler.Callback {
       }
     };
 
+
     if (is) {
-      go(View_LoginPage.class, true);
+      go(View_LoginPage_K.class, true);
     } else {
+      //初始化表
+      Utils.dataBaseHelper.mCreateUserManageTabel();
+      Utils.dataBaseHelper.mCreateNewPayHistoryTable();
+      Utils.dataBaseHelper.mUser_insert(1, "辽A10001", "张三", 0);
+      Utils.dataBaseHelper.mUser_insert(2, "辽A10002", "李四", 0);
+      Utils.dataBaseHelper.mUser_insert(3, "辽A10003", "王五", 0);
+      Utils.dataBaseHelper.mUser_insert(4, "辽A10004", "赵六", 0);
       times.Start();
     }
 
@@ -96,7 +105,7 @@ public class View_Splash extends BaseActivity implements Handler.Callback {
     switch (v.getId()) {
       case R.id.jmp:
         times.Stop();
-        go(View_LoginPage.class, true);
+        go(View_LoginPage_K.class, true);
         break;
       default:
         break;

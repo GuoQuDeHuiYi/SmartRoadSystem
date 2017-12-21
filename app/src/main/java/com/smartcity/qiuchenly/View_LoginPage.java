@@ -2,7 +2,6 @@ package com.smartcity.qiuchenly;
 
 
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -110,6 +109,7 @@ public class View_LoginPage extends BaseActivity implements iCallback.loginCallB
 
   @Override
   public void loginFailed(String errReason) {
+    ShareUtils.put("isLogin",false);
     Msg(errReason);
   }
 }

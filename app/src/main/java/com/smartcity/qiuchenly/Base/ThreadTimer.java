@@ -2,8 +2,6 @@ package com.smartcity.qiuchenly.Base;
 
 import android.os.Handler;
 
-import java.util.concurrent.locks.Lock;
-
 /**
  * Author: qiuchenly
  * Date   : 24/11/2017

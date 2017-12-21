@@ -4,7 +4,7 @@ import android.support.v4.view.PagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.smartcity.qiuchenly.Base.SharedContext;
+import com.smartcity.qiuchenly.Adapter.iController.iContentViewPagerViewEvent;
 
 import java.util.List;
 
@@ -40,7 +40,7 @@ public class mContentViewPager extends PagerAdapter {
   @Override
   public Object instantiateItem(ViewGroup container, int position) {
     View v = lists.get(position);
-    event.setViewEvent(position, v);
+    event.setViewEvent(v);
     container.addView(v);
     return v;
   }

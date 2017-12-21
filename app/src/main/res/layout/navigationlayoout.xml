@@ -34,19 +34,22 @@
                     android:layout_marginLeft="20dp">
 
                     <TextView
+                        android:id="@+id/mNavigationUserName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="隔壁老王，你好。"
+
+                       android:layout_gravity="center_vertical" android:text="隔壁老王，你好。"
                         android:textColor="#ffffff"
                         android:textSize="21sp" />
 
                     <TextView
+                        android:id="@+id/mNavigationLogOut"
                         android:layout_width="50dp"
-                        android:layout_height="20dp"
+                        android:layout_height="50dp"
                         android:layout_marginLeft="10dp"
                         android:background="@drawable/levelup"
                         android:gravity="center"
-                        android:text="LV4"
+                        android:text="注销"
                         android:textColor="#2e2e2e"
                         android:textSize="15sp" />
                 </LinearLayout>

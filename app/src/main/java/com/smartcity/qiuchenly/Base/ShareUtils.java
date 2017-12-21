@@ -22,12 +22,14 @@ public class ShareUtils {
    * Context 参数传进来的意义
    * 不同的Activity是不会共享一个Preferences的,需要传一个指定的上下文 来统一调用
    *
-   * @param con
    * @return
    */
-  public static SharedPreferences getSharePreferences(Context con) {
+  public static SharedPreferences getSharePreferences() {
     if (share == null)
-      share = con.getSharedPreferences("QiuChenPreferences", Context.MODE_PRIVATE);
+      share = SharedContext.getContext()
+              .getSharedPreferences("QiuChenPreferences",
+                      Context.MODE_PRIVATE
+              );
     return share;
   }
 
@@ -62,6 +64,7 @@ public class ShareUtils {
 
   /**
    * 读取保存的Float数据,成功返回非-1,失败返回-1
+   *
    * @param key 字符串key
    * @return
    */

@@ -16,8 +16,8 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="个人信息"
-            android:textSize="19sp"
-            android:textColor="#ff0000"/>
+            android:textColor="#ff0000"
+            android:textSize="19sp" />
 
         <TextView
             android:id="@+id/Prepaid_TextView"
@@ -25,9 +25,9 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:gravity="center"
-            android:text="充值中心"
-            android:textSize="19sp"
-            android:textColor="#fff"/>
+            android:text="充值记录"
+            android:textColor="#fff"
+            android:textSize="19sp" />
 
         <TextView
             android:id="@+id/Threshold_TextView"
@@ -36,8 +36,8 @@
             android:layout_marginLeft="20dp"
             android:gravity="center"
             android:text="阈值设置"
-            android:textSize="19sp"
-            android:textColor="#fff"/>
+            android:textColor="#fff"
+            android:textSize="19sp" />
 
 
     </LinearLayout>
