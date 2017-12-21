@@ -49,6 +49,7 @@ class personal_myCars(private var mList: List<userCars>) : RecyclerView.Adapter<
             val bitmap = BitmapFactory.decodeStream(SharedContext.getContext().
                     resources.openRawResource(getIDByIndex(mList[position].carPic)))
             mPersonalInfomationUserCars.setImageBitmap(bitmap)
+            mPersonalInfomationUserCarName.text = mList[position].carName
         }
 
     }

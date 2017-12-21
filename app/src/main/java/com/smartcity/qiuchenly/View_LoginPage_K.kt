@@ -28,8 +28,13 @@ class View_LoginPage_K : BaseActivity(), iCallback.loginCallBack {
 
     override fun ready() {
         presenter = loginPresenter()
-        if (ShareUtils.getBoolean("autoLogin")) {
-            presenter?.login(
+        val autologin = ShareUtils.getBoolean("autoLogin")
+        val userNames = ShareUtils.get("userName")
+        val passWords = ShareUtils.get("passWord")
+        if (userNames.isEmpty() || passWords.isEmpty())
+            return
+        if (autologin) {
+            presenter!!.login(
                     ShareUtils.get("userName"),
                     ShareUtils.get("passWord"),
                     this)
@@ -50,10 +55,9 @@ class View_LoginPage_K : BaseActivity(), iCallback.loginCallBack {
     override fun click(v: View?) {
         when (v) {
             m_LoginView_mLogin -> {
-                presenter?.login(
-                        UserName.text.toString(),
-                        passWord.text.toString(),
-                        this)
+                val u = UserName.text.toString()
+                val p = passWord.text.toString()
+                presenter?.login(u, p, this)
             }
             m_LoginView_mRegister -> {
                 Snackbar.make(mLoginView, "注册？不存在的。", Snackbar.LENGTH_LONG)
@@ -72,15 +76,16 @@ class View_LoginPage_K : BaseActivity(), iCallback.loginCallBack {
 
     override fun loginSuccess(result: String?) {}   //无需实现此方法
 
-    override fun loginSuccess(userInfo: userLoginCallBackModel?) {
-        if (m_LoginView_rememberPass.isChecked
-                or ShareUtils.getBoolean("autoLogin")) {
+    override fun loginSuccess(userInfo: userLoginCallBackModel) {
+        val u = userInfo.mUserName
+        val p = userInfo.mPassWord
+        //首先判断是否记住密码
+        if (m_LoginView_rememberPass.isChecked) {
+            ShareUtils.put("userName", u)
+            ShareUtils.put("passWord", p)
             ShareUtils.put("isLogin", true)
-            ShareUtils.put<String>("userName", UserName.text.toString())
-            ShareUtils.put<String>("passWord", passWord.text.toString())
         }
-        if (m_LoginView_autoLogin.isChecked
-                or ShareUtils.getBoolean("autoLogin")) {
+        if (m_LoginView_autoLogin.isChecked) {
             ShareUtils.put("autoLogin", true)
         }
         Utils.userInfo = userInfo//数据保存

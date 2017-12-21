@@ -346,7 +346,6 @@ public class Utils {
       dataBaseHelper = new mDataBaseHelper(SharedContext.getContext(),
               DATABASE_NAME, null, DATABASE_VERSION);
     }
-    Utils_K.Companion.InitDataBaseHelper();//顺便初始化表数据
   }
 
   public static String getNowLoginUser() {

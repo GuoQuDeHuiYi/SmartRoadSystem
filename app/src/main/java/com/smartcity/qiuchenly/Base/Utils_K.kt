@@ -18,10 +18,10 @@ class Utils_K {
          */
         fun getNowDate(): String {
             val mCalender = Calendar.getInstance()
-            return String.format("${mCalender.time.year}" +
-                    ".${mCalender.time.month}." +
-                    "${mCalender.time.day} " +
-                    "${mCalender.time.hours}:${mCalender.time.minutes}")
+            return String.format("${mCalender.get(Calendar.YEAR)}" +
+                    ".${mCalender.get(Calendar.MONTH)}." +
+                    "${mCalender.get(Calendar.DAY_OF_MONTH)} " +
+                    "${mCalender.get(Calendar.HOUR_OF_DAY)}:${mCalender.get(Calendar.MINUTE)}")
         }
 
 
@@ -39,9 +39,12 @@ class Utils_K {
                 mUserCarHelper.insert("2", "辽A10002", "user2")
                 mUserCarHelper.insert("3", "辽A10003", "user3")
                 mUserCarHelper.insert("4", "辽A10004", "user4")
-                mUserCarHelper.insert("1", "辽A10001", "user5")
+                mUserCarHelper.insert("2", "辽A10005", "user1")
             }
-
+        }
+        fun mClearUserCache(){
+            ShareUtils.put("isLogin", false)
+            ShareUtils.put("autoLogin", false)
         }
     }
 }

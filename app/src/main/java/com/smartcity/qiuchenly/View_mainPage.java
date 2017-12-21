@@ -89,8 +89,8 @@ public class View_mainPage extends BaseActivity implements iContentPageChanged,
     Button SetAmount;
 
     TextView Amount, Personal_TextView, Prepaid_TextView, Threshold_TextView, Personal_user,
-            Personal_sex, Personal_cardID, Personal_phoneNum, Personal_time, mNavigationUserName;
-
+            Personal_sex, Personal_cardID, Personal_phoneNum, Personal_time, mNavigationUserName,
+    mLogoutUser;
 
     @Override
     public int getLayout() {
@@ -147,7 +147,7 @@ public class View_mainPage extends BaseActivity implements iContentPageChanged,
 
         Bitmap bits = BitmapFactory.decodeResource(getResources(), R.mipmap.maincontent);
         for (int a = 0; a < 1; a++) {
-            bits = Utils.blur(bits, 17f);
+            bits = Utils.blur(bits, 25f);
         }
         contentBitmap.setImageBitmap(bits);
 
@@ -161,7 +161,7 @@ public class View_mainPage extends BaseActivity implements iContentPageChanged,
             public void onGlobalLayout() {
                 mContentRl.buildDrawingCache();
                 Bitmap bit = mContentRl.getDrawingCache();
-                for (int a = 0; a < 1; a++) {
+                for (int a = 0; a < 25; a++) {
                     bit = Utils.blurBitmapRender(bit, mMainToolBar, 25f, 2);
                 }
                 mMainToolBar.setBackground(new BitmapDrawable(bit));
@@ -199,6 +199,10 @@ public class View_mainPage extends BaseActivity implements iContentPageChanged,
                 break;
             case R.id.Threshold_TextView:
                 Personal_ViewPager.setCurrentItem(2);
+                break;
+            case R.id.mNavigationLogOut:
+                Utils_K.Companion.mClearUserCache();
+                go(View_LoginPage_K.class,true);
                 break;
             default:
 
@@ -241,6 +245,7 @@ public class View_mainPage extends BaseActivity implements iContentPageChanged,
         mMainToolBar = find(R.id.mMainToolBar);
         contentBitmap = find(R.id.contentBitmap);
         mNavigationUserName = find(R.id.mNavigationUserName);
+        mLogoutUser = find(R.id.mNavigationLogOut,true);
     }
 
     @Override
@@ -436,7 +441,17 @@ public class View_mainPage extends BaseActivity implements iContentPageChanged,
                 personal_myCarsRV = v.findViewById(R.id.personal_myCarsRV);
                 personal_myCars = new personal_myCars(
                         Utils.dataBaseHelper.mUserCarHelper.getBy(Utils.getNowLoginUser()));
+                //这里的RV显示为4列，一行四个
                 personal_myCarsRV.setLayoutManager(new GridLayoutManager(v.getContext(), 4));
+                personal_myCarsRV.addItemDecoration(new RecyclerView.ItemDecoration() {
+                    @Override
+                    public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+                        super.getItemOffsets(outRect, view, parent, state);
+                        outRect.left =5;
+                        outRect.right=5;
+                        outRect.bottom=10;
+                    }
+                });
                 personal_myCarsRV.setAdapter(personal_myCars);
                 break;
             case 1:
@@ -544,12 +559,10 @@ public class View_mainPage extends BaseActivity implements iContentPageChanged,
                     isPay = true;
                     dialog_.cancel();
                     //TODO:在这里编写数据库插入指令
-
                     int MODE = 0;//默认是单个账户充值
                     if (ID.contains(",")) {
                         MODE = 1;//多账户充值辽A10002,辽A10003,
                     }
-
                     if (MODE == 0) {
                         //此处直接调用数据库单个实例插入数据方法
                         Utils.dataBaseHelper.mPay_History_InsertItems(ID,
@@ -557,8 +570,12 @@ public class View_mainPage extends BaseActivity implements iContentPageChanged,
                                 Utils.getNowLoginUser());
                         Utils.dataBaseHelper.mUpdateTotalMoney(ID, payBefore + getMoney);
                         Msg("单个账户充值成功！");
-                        mAdapter.addListData(Utils.dataBaseHelper.mUser_getAll());
-                        mAdapter.notifyDataSetChanged();
+                        new upDateAllRV() {
+                            @Override
+                            public void youSelfThings() {
+                                //无实现
+                            }
+                        }.updateRV();
                         return;
                     }
                     String IDs = ID.substring(0, ID.length() - 1);
@@ -572,15 +589,27 @@ public class View_mainPage extends BaseActivity implements iContentPageChanged,
                                 Utils.getNowLoginUser());
                         Utils.dataBaseHelper.mUpdateTotalMoney(id, t);
                     }
-                    mAdapter.addListData(Utils.dataBaseHelper.mUser_getAll());
-                    mAdapter.checkBoxInit();
-                    mAdapter.notifyDataSetChanged();
-                    //同步更新个人中心RV
-                    personal_payHistoryRV.updateData(Utils.dataBaseHelper.mQueryPayHistory());
-                    personal_payHistoryRV.notifyDataSetChanged();
+                    new upDateAllRV() {
+                        @Override
+                        public void youSelfThings() {
+                            mAdapter.checkBoxInit();//初始化选中状态
+                        }
+                    }.updateRV();
                     Msg("多账户充值成功！");
                 }
             }
         });
+    }
+
+
+    abstract class upDateAllRV {
+        public void updateRV() {
+            mAdapter.addListData(Utils.dataBaseHelper.mUser_getAll());
+            mAdapter.notifyDataSetChanged();
+            personal_payHistoryRV.updateData(Utils.dataBaseHelper.mQueryPayHistory());
+            personal_payHistoryRV.notifyDataSetChanged();
+            youSelfThings();
+        }
+        public abstract void youSelfThings();
     }
 }
